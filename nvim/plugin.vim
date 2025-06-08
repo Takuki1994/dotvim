@@ -23,6 +23,8 @@ if !exists('g:vscode')
   Jetpack 'nvim-treesitter/nvim-treesitter'
   Jetpack 'nvim-tree/nvim-web-devicons'
   Jetpack 'nvim-treesitter/nvim-treesitter-context'
+  Jetpack 'Shougo/ddc.vim'
+  Jetpack 'Shougo/ddc-ui-native'
 endif
 Jetpack 'vim-denops/denops.vim'
 Jetpack 'lambdalisue/vim-gin'
@@ -42,6 +44,32 @@ endfor
 
 " helpを日本語化
 set helplang=ja,en
+
+" ddc.vim
+function DdcSettings() abort
+  call ddc#custom#patch_global('ui', 'native')
+  call ddc#custom#patch_global('sources', ['skkeleton'])
+  call ddc#custom#patch_global('sourceOptions', {
+  \ 'skkeleton': {
+  \   'mark': 'skkeleton',
+  \   'matchers': [],
+  \   'sorters': [],
+  \   'converters': [],
+  \   'isVolatile': v:true,
+  \   'minAutoCompleteLength': 1,
+  \  },
+  \ })
+  call ddc#enable()
+endfunction
+
+function! EnableDdc() abort
+  let b:coc_suggest_disable = v:true
+  call DdcSettings()
+endfunction
+function! DisableDdc() abort
+  let b:coc_suggest_disable = v:false
+  call ddc#custom#patch_global('sourceOptions', {})
+endfunction
 
 " skkeleton
 call skkeleton#initialize()
@@ -66,8 +94,8 @@ call skkeleton#config({
   \ })
 augroup skkeleton-coc
   autocmd!
-  autocmd User skkeleton-enable-pre let b:coc_suggest_disable = v:true
-  autocmd User skkeleton-disable-pre let b:coc_suggest_disable = v:false
+  autocmd User skkeleton-enable-pre call EnableDdc()
+  autocmd User skkeleton-disable-pre call DisableDdc()
 augroup END
 lua require("skkeleton_indicator").setup({})
 
