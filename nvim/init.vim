@@ -38,6 +38,9 @@ if !exists('g:vscode')
   augroup filetype_indent
     autocmd FileType vim setlocal sw=2 sts=2 ts=2 et
   augroup END
+  augroup todo
+    autocmd BufNewFile,BufRead [tT]odo.txt,[iI]nbox.txt,[dD]one.txt set syntax=todo
+  augroup END
 endif
 
 " plugin
