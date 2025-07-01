@@ -67,5 +67,6 @@ command! -nargs=? -complete=file Mdl Markdownlint <args>
 set errorformat^=%f:%l\ %m
 set errorformat^=%f:%l:%c\ %m
 " todo.txt
-command! -nargs=0 Due cgetexpr system('rg "^[^x].*\sdue:" -nHP -g *.txt|perl -lane "{print $F[-1].\" \".$F[0]}"|sort|perl -lane "print $F[1],$F[0]"')
-command! -nargs=1 Pro cgetexpr system('rg "^[^x].*\s\+<args>" -nHP -g *.txt')
+command! -nargs=0 Due lgetexpr system('rg "^[^x].*\sdue:" -nHP -g *.txt|perl -lane "{print $F[-1].\" \".$F[0]}"|sort|perl -lane "print $F[1],$F[0]"')
+command! -nargs=1 Pro lgetexpr system('rg "^[^x].*\s\+<args>" -nHP -g *.txt')
+command! -nargs=0 Done lgrep ^x -g !done.txt
