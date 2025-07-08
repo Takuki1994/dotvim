@@ -45,6 +45,8 @@ if !exists('g:vscode')
   augroup todo
     autocmd BufNewFile,BufRead [tT]odo.txt,[iI]nbox.txt,[dD]one.txt set syntax=todo
   augroup END
+  " laststatus=3はNeoVim限定の設定
+  set laststatus=3
 endif
 
 " plugin
