@@ -25,6 +25,8 @@ if !exists('g:vscode')
   Jetpack 'nvim-treesitter/nvim-treesitter-context'
   Jetpack 'Shougo/ddc.vim'
   Jetpack 'Shougo/ddc-ui-native'
+  Jetpack 'junegunn/fzf'
+  Jetpack 'junegunn/fzf.vim'
 endif
 Jetpack 'vim-denops/denops.vim'
 Jetpack 'lambdalisue/vim-gin'
