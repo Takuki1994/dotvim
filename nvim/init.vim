@@ -30,6 +30,7 @@ if !exists('g:vscode')
     autocmd FileType c,cpp set colorcolumn=79
     autocmd FileType vim set colorcolumn=79
     autocmd FileType python set colorcolumn=79
+    autocmd FileType git,gitcommit set colorcolumn=79
   augroup END
   " nvimだと半角カナの濁点の表示とカーソル移動の扱いが一致せず表示が崩れるので
   " 応急処置として半角カナをすべて全角と同じ幅で扱う
