@@ -280,3 +280,6 @@ require('render-markdown').setup({
 })
 EOF
 
+" Gin.vim
+nmap <silent> <leader><leader>gp <Cmd>tabe%\|:GinPatch ++no-head<CR>
+nmap <silent> <leader><leader>gP <Cmd>tabe%\|:GinPatch ++no-worktree<CR>
