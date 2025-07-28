@@ -50,6 +50,9 @@ if !exists('g:vscode')
   set laststatus=3
 endif
 
+" keymap
+inoremap <Leader><Leader>date <C-R>=strftime('%Y-%m-%d')<CR>
+
 " plugin
 source `=g:nvim_home . '/plugin.vim'`
 
