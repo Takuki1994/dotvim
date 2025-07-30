@@ -14,8 +14,6 @@ set scrolloff=5
 
 if !exists('g:vscode')
   set termguicolors
-  set number
-  set relativenumber
   set listchars=eol:↴,tab:>.,trail:⋅
   set list
   set nowrap
@@ -24,7 +22,7 @@ if !exists('g:vscode')
   set tabstop=4
   set shiftwidth=4
   set cursorline
-  set cursorlineopt=number
+  set cursorlineopt=line
   set textwidth=0
   augroup column_highlight
     autocmd FileType c,cpp set colorcolumn=79

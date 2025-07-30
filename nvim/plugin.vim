@@ -208,6 +208,7 @@ else
   hi SignColumn guibg=NONE
   hi NormalFloat guibg=NONE
   hi FloatBorder guibg=NONE
+  hi CursorLine gui=underline guibg=NONE
 
   " airline
   let g:airline_theme = 'everforest'
