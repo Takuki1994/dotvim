@@ -191,13 +191,19 @@ endif
 
 if exists('g:vscode')
   "  quick-scope
-  highlight QuickScopePrimary guifg='#91d350' gui=underline ctermfg=155 cterm=underline
-  highlight QuickScopeSecondary guifg='#51dada' gui=underline ctermfg=81 cterm=underline
+  highlight QuickScopePrimary
+        \ guifg='#91d350' gui=underline ctermfg=155 cterm=underline
+  highlight QuickScopeSecondary
+        \ guifg='#51dada' gui=underline ctermfg=81 cterm=underline
   "  vim-sandwich
-  highlight OperatorSandwichBuns guifg='#aa91a0' gui=underline ctermfg=172 cterm=underline
-  highlight OperatorSandwichChange guifg='#edc41f' gui=underline ctermfg='yellow' cterm=underline
-  highlight OperatorSandwichAdd guibg='#b1fa87' gui=none ctermbg='green' cterm=none
-  highlight OperatorSandwichDelete guibg='#cf5963' gui=none ctermbg='red' cterm=none
+  highlight OperatorSandwichBuns
+        \ guifg='#aa91a0' gui=underline ctermfg=172 cterm=underline
+  highlight OperatorSandwichChange
+        \ guifg='#edc41f' gui=underline ctermfg='yellow' cterm=underline
+  highlight OperatorSandwichAdd
+        \ guibg='#b1fa87' gui=none ctermbg='green' cterm=none
+  highlight OperatorSandwichDelete
+        \ guibg='#cf5963' gui=none ctermbg='red' cterm=none
 else
   " color scheme settings
   " Vim

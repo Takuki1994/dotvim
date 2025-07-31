@@ -42,7 +42,8 @@ if !exists('g:vscode')
     autocmd FileType vim setlocal sw=2 sts=2 ts=2 et
   augroup END
   augroup todo
-    autocmd BufNewFile,BufRead [tT]odo.txt,[iI]nbox.txt,[dD]one.txt set syntax=todo
+    autocmd BufNewFile,BufRead [tT]odo.txt,[iI]nbox.txt,[dD]one.txt
+          \ set syntax=todo
   augroup END
   " laststatus=3はNeoVim限定の設定
   set laststatus=3
@@ -59,18 +60,22 @@ set grepprg=rg\ -nHP\ --column\ --crlf\ --path-separator=/
 set grepformat=%f:%l:%c:%m
 
 " Typos
-command! -nargs=? -complete=file Typos cexpr system('typos --format brief <args>')
+command! -nargs=? -complete=file Typos
+      \ cexpr system('typos --format brief <args>')
 " Ruff
-command! -nargs=1 -complete=file Ruff cexpr system('uv tool run ruff check --output-format concise <args>')
+command! -nargs=1 -complete=file Ruff
+      \ cexpr system('uv tool run ruff check --output-format concise <args>')
 " Ty
-command! -nargs=1 -complete=file Ty cexpr system('uv tool run ty check --output-format concise <args>')
+command! -nargs=1 -complete=file Ty
+      \ cexpr system('uv tool run ty check --output-format concise <args>')
 " error[invalid-assignment] main.py:2:5: Object
 set errorformat^=%t%.%#\ %f:%l:%c:\ %m
 " check trailing whitespace
 command! -nargs=1 -complete=file TrailingWhitespace grep "[\ 　\t]+$" <args>
 command! -nargs=1 -complete=file Twh TrailingWhitespace <args>
 " markdownlint-cli2
-command! -nargs=? -complete=file Markdownlint cexpr system('markdownlint-cli2 <args>')
+command! -nargs=? -complete=file Markdownlint
+      \ cexpr system('markdownlint-cli2 <args>')
 command! -nargs=? -complete=file Mdl Markdownlint <args>
 set errorformat^=%f:%l\ %m
 set errorformat^=%f:%l:%c\ %m
