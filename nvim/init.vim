@@ -7,7 +7,7 @@ source ~\.config\nvim\.env
 syntax on
 
 " vim settings
-let mapleader="\<Space>"
+let mapleader=","
 set clipboard=unnamedplus
 
 set scrolloff=5
