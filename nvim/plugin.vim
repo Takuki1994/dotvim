@@ -27,6 +27,7 @@ if !exists('g:vscode')
   Jetpack 'Shougo/ddc-ui-native'
   Jetpack 'junegunn/fzf'
   Jetpack 'junegunn/fzf.vim'
+  Jetpack 'norcalli/nvim-colorizer.lua'
 endif
 Jetpack 'vim-denops/denops.vim'
 Jetpack 'lambdalisue/vim-gin'
@@ -277,3 +278,6 @@ EOF
 " Gin.vim
 nmap <silent> <leader><leader>gp <Cmd>tabe%\|:GinPatch ++no-head<CR>
 nmap <silent> <leader><leader>gP <Cmd>tabe%\|:GinPatch ++no-worktree<CR>
+
+" colorier.nvim
+lua require'colorizer'.setup()
