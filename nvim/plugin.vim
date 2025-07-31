@@ -47,6 +47,12 @@ endfor
 " helpを日本語化
 set helplang=ja,en
 
+" airline
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#formatter = 'unique_tail'
+let g:airline#extensions#tabline#buffer_idx_mode = 1
+
 " ddc.vim
 function DdcSettings() abort
   call ddc#custom#patch_global('ui', 'native')
@@ -195,27 +201,8 @@ if exists('g:vscode')
 else
   " color scheme settings
   " Vim
-  let g:everforest_background = 'soft'
-  colorscheme everforest
-  hi Normal guibg=NONE
-  hi NonText guibg=NONE
-  hi SpecialKey guibg=NONE
-  hi LineNr guibg=NONE
-  hi StatusLine guibg=NONE
-  hi Folded guibg=NONE
-  hi EndOfBuffer guibg=NONE
-  hi NormalNC guibg=NONE
-  hi SignColumn guibg=NONE
-  hi NormalFloat guibg=NONE
-  hi FloatBorder guibg=NONE
-  hi CursorLine gui=underline guibg=NONE
-
-  " airline
-  let g:airline_theme = 'everforest'
-  let g:airline_powerline_fonts = 1
-  let g:airline#extensions#tabline#enabled = 1
-  let g:airline#extensions#tabline#formatter = 'unique_tail'
-  let g:airline#extensions#tabline#buffer_idx_mode = 1
+  source `=g:nvim_home . '/theme.vim'`
+  source `=g:nvim_home . '/highlight.vim'`
 endif
 
 " lua plugin settings
