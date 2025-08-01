@@ -9,7 +9,7 @@ if system('powershell.exe Get-ItemProperty
   let g:airline_theme = 'everforest'
 else
   set background=light
-  let g:everforest_background = 'hard'
+  let g:everforest_background = 'medium'
   colorscheme everforest
   " airline
   let g:airline_theme = 'everforest'
