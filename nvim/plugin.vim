@@ -35,6 +35,7 @@ Jetpack 'bullets-vim/bullets.vim'
 Jetpack 'vim-jp/vimdoc-ja'
 Jetpack 'vim-skk/skkeleton'
 Jetpack 'delphinus/skkeleton_indicator.nvim'
+Jetpack 'rhysd/clever-f.vim'
 
 call jetpack#end()
 
@@ -281,3 +282,9 @@ nmap <silent> <leader><leader>gP <Cmd>tabe%\|:GinPatch ++no-worktree<CR>
 
 " colorier.nvim
 lua require'colorizer'.setup()
+
+" clever-f
+let g:clever_f_across_no_line = 1
+let g:clever_f_fix_key_direction = 1
+let g:clever_f_use_migemo = 1
+map ; <Plug>(clever-f-repeat-forward)
