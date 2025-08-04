@@ -34,7 +34,7 @@ Jetpack 'lambdalisue/vim-gin'
 Jetpack 'bullets-vim/bullets.vim'
 Jetpack 'vim-jp/vimdoc-ja'
 Jetpack 'vim-skk/skkeleton'
-Jetpack 'delphinus/skkeleton_indicator.nvim'
+Jetpack 'yasunori0418/statusline_skk.vim'
 Jetpack 'rhysd/clever-f.vim'
 
 call jetpack#end()
@@ -54,6 +54,7 @@ let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#formatter = 'unique_tail'
 let g:airline#extensions#tabline#buffer_idx_mode = 1
+let g:airline_section_a = g:airline#section#create(['mode', '%{statusline_skk#mode()}'])
 
 " ddc.vim
 function DdcSettings() abort
@@ -107,7 +108,19 @@ augroup skkeleton-coc
   autocmd User skkeleton-enable-pre call EnableDdc()
   autocmd User skkeleton-disable-pre call DisableDdc()
 augroup END
-lua require("skkeleton_indicator").setup({})
+augroup skkeleton
+  autocmd!
+  autocmd ModeChanged i*:n call skkeleton#handle('disable', {})
+augroup END
+
+" statusline_skk
+call statusline_skk#option('display', {
+  \ 'hiragana': '   あぁ',
+  \ 'katakana': '   アァ',
+  \ 'hankaku-katakana': '   ｱｧ',
+  \ 'zenkaku-alphabet': '   Ａａ',
+  \ 'alphabet': '   Aa',
+  \ })
 
 " DAP
 if !exists('g:vscode')
