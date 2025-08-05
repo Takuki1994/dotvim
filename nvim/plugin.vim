@@ -62,8 +62,9 @@ let g:airline_section_a = g:airline#section#create([
       \'executable',
       \'%{statusline_skk#mode()}'])
 let g:airline_section_x = g:airline#section#create([
-      \'%{strftime("%T")}  ',
-      \'filetype'])
+      \'filetype',
+      \'  %{strftime("%T")}'
+      \])
 
 " ddc.vim
 function DdcSettings() abort
