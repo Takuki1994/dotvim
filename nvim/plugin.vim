@@ -35,7 +35,6 @@ Jetpack 'bullets-vim/bullets.vim'
 Jetpack 'vim-jp/vimdoc-ja'
 Jetpack 'vim-skk/skkeleton'
 Jetpack 'yasunori0418/statusline_skk.vim'
-Jetpack 'rhysd/clever-f.vim'
 
 call jetpack#end()
 
@@ -121,6 +120,7 @@ call statusline_skk#option('display', {
   \ 'zenkaku-alphabet': '   Ａａ',
   \ 'alphabet': '   Aa',
   \ })
+let g:lightline_skk_announce = v:true
 
 " DAP
 if !exists('g:vscode')
@@ -296,8 +296,9 @@ nmap <silent> <leader><leader>gP <Cmd>tabe%\|:GinPatch ++no-worktree<CR>
 " colorier.nvim
 lua require'colorizer'.setup()
 
-" clever-f
-let g:clever_f_across_no_line = 1
-let g:clever_f_fix_key_direction = 1
-let g:clever_f_use_migemo = 1
-map ; <Plug>(clever-f-repeat-forward)
+" easymotion
+nmap <silent> <leader><leader>f <Plug>(easymotion-fl)
+nmap <silent> <leader><leader>F <Plug>(easymotion-Fl)
+nmap <silent> <leader><leader>t <Plug>(easymotion-tl)
+nmap <silent> <leader><leader>T <Plug>(easymotion-Tl)
+let g:EasyMotion_use_migemo = 1
