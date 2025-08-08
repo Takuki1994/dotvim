@@ -118,10 +118,6 @@ augroup skkeleton-coc
   autocmd User skkeleton-enable-pre call EnableDdc()
   autocmd User skkeleton-disable-pre call DisableDdc()
 augroup END
-augroup skkeleton
-  autocmd!
-  autocmd ModeChanged i*:n call skkeleton#handle('disable', {})
-augroup END
 
 " statusline_skk
 call statusline_skk#option('display', {
