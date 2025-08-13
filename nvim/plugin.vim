@@ -297,8 +297,8 @@ require('render-markdown').setup({
 EOF
 
 " Gin.vim
-nmap <silent> <leader><leader>gp <Cmd>tabe%\|:GinPatch ++no-head<CR>
-nmap <silent> <leader><leader>gP <Cmd>tabe%\|:GinPatch ++no-worktree<CR>
+nmap <silent> <leader><leader>gp <Cmd>tabedit%\|:GinPatch ++no-head<CR>
+nmap <silent> <leader><leader>gP <Cmd>tabedit%\|:GinPatch ++no-worktree<CR>
 
 " colorier.nvim
 lua require'colorizer'.setup()
