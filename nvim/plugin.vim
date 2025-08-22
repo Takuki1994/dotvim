@@ -28,6 +28,7 @@ if !exists('g:vscode')
   Jetpack 'junegunn/fzf'
   Jetpack 'junegunn/fzf.vim'
   Jetpack 'norcalli/nvim-colorizer.lua'
+  Jetpack 'goolord/alpha-nvim'
 endif
 Jetpack 'vim-denops/denops.vim'
 Jetpack 'lambdalisue/vim-gin'
@@ -309,3 +310,6 @@ nmap <silent> <leader><leader>F <Plug>(easymotion-Fl)
 nmap <silent> <leader><leader>t <Plug>(easymotion-tl)
 nmap <silent> <leader><leader>T <Plug>(easymotion-Tl)
 let g:EasyMotion_use_migemo = 1
+
+" alpha-nvim
+lua require'alpha'.setup(require'alpha.themes.dashboard'.config)
