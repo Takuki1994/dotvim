@@ -51,6 +51,9 @@ endif
 
 " keymap
 inoremap <Leader><Leader>date <C-R>=strftime('%Y-%m-%d')<CR>
+cnoremap <Leader><Leader>date <C-R>=strftime('%Y-%m-%d')<CR>
+inoremap <Leader><Leader>time <C-R>=strftime('%Y-%m-%d_%H-%M')<CR>
+cnoremap <Leader><Leader>time <C-R>=strftime('%Y-%m-%d_%H-%M')<CR>
 
 " plugin
 source `=g:nvim_home . '/plugin.vim'`
