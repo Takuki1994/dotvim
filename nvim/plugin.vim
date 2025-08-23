@@ -29,6 +29,7 @@ if !exists('g:vscode')
   Jetpack 'junegunn/fzf.vim'
   Jetpack 'norcalli/nvim-colorizer.lua'
   Jetpack 'goolord/alpha-nvim'
+  Jetpack 'MaximilianLloyd/ascii.nvim'
 endif
 Jetpack 'vim-denops/denops.vim'
 Jetpack 'lambdalisue/vim-gin'
@@ -312,4 +313,8 @@ nmap <silent> <leader><leader>T <Plug>(easymotion-Tl)
 let g:EasyMotion_use_migemo = 1
 
 " alpha-nvim
+source `=g:nvim_home . '/startify.vim'`
 lua require'alpha'.setup(require'alpha.themes.dashboard'.config)
+augroup alpha-nvim
+  autocmd FileType alpha setlocal scrolloff=0
+augroup END
