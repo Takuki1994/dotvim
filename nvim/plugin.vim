@@ -318,3 +318,14 @@ lua require'alpha'.setup(require'alpha.themes.dashboard'.config)
 augroup alpha-nvim
   autocmd FileType alpha setlocal scrolloff=0
 augroup END
+
+" fzf.vim
+nnoremap <silent> <leader>fe :Files<CR>
+nnoremap <silent> <leader>fg :GFiles<CR>
+nnoremap <silent> <leader>f? :GFiles?<CR>
+nnoremap <silent> <leader>fb :Buffers<CR>
+nnoremap <silent> <leader>ft :call fzf#run({'sink': 'tabe'})<CR>
+nnoremap <silent> <leader>fv :call fzf#run({'sink': 'vs'})<CR>
+nnoremap <silent> <leader>fs :call fzf#run({'sink': 'sp'})<CR>
+nnoremap <silent> <leader>fr :call fzf#run({'source': 'ghq list -p',
+                                           \'sink': 'cd'})<CR>
