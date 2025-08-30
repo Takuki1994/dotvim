@@ -1,4 +1,4 @@
-hi Normal guibg=NONE
+hi Normal guibg=NONE ctermbg=NONE
 hi NonText guibg=NONE
 hi SpecialKey guibg=NONE
 hi LineNr guibg=NONE
