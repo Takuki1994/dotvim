@@ -11,8 +11,6 @@ if !exists('g:vscode')
   Jetpack 'lewis6991/gitsigns.nvim'
   Jetpack 'https://github.com/lukas-reineke/indent-blankline.nvim'
   Jetpack 'neoclide/coc.nvim', { 'branch': 'release' }
-  Jetpack 'vim-airline/vim-airline'
-  Jetpack 'vim-airline/vim-airline-themes'
   Jetpack 'mfussenegger/nvim-dap'
   Jetpack 'mfussenegger/nvim-dap-python'
   Jetpack 'sainnhe/everforest'
@@ -36,7 +34,6 @@ Jetpack 'lambdalisue/vim-gin'
 Jetpack 'bullets-vim/bullets.vim'
 Jetpack 'vim-jp/vimdoc-ja'
 Jetpack 'vim-skk/skkeleton'
-Jetpack 'yasunori0418/statusline_skk.vim'
 
 call jetpack#end()
 
@@ -49,24 +46,6 @@ endfor
 
 " helpを日本語化
 set helplang=ja,en
-
-" airline
-let g:airline_powerline_fonts = 1
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#formatter = 'unique_tail'
-let g:airline#extensions#tabline#buffer_idx_mode = 1
-let g:airline_section_a = g:airline#section#create([
-      \'mode',
-      \'crypt',
-      \'paste',
-      \'spell',
-      \'iminsert',
-      \'executable',
-      \'%{statusline_skk#mode()}'])
-let g:airline_section_x = g:airline#section#create([
-      \'filetype',
-      \'  %{strftime("%T")}'
-      \])
 
 " ddc.vim
 function DdcSettings() abort
@@ -120,16 +99,6 @@ augroup skkeleton-coc
   autocmd User skkeleton-enable-pre call EnableDdc()
   autocmd User skkeleton-disable-pre call DisableDdc()
 augroup END
-
-" statusline_skk
-call statusline_skk#option('display', {
-  \ 'hiragana': '   あぁ',
-  \ 'katakana': '   アァ',
-  \ 'hankaku-katakana': '   ｱｧ',
-  \ 'zenkaku-alphabet': '   Ａａ',
-  \ 'alphabet': '   Aa',
-  \ })
-let g:lightline_skk_announce = v:true
 
 " DAP
 if !exists('g:vscode')
@@ -329,3 +298,20 @@ nnoremap <silent> <leader>fv :call fzf#run({'sink': 'vs'})<CR>
 nnoremap <silent> <leader>fs :call fzf#run({'sink': 'sp'})<CR>
 nnoremap <silent> <leader>fr :call fzf#run({'source': 'ghq list -p',
                                            \'sink': 'cd'})<CR>
+
+" statusline
+function! GetSkkStatusline() abort
+  let skk_mode = skkeleton#mode()
+  if skk_mode == 'hira'
+    return 'あぁ '
+  elseif skk_mode == 'kata'
+    return 'アァ '
+  elseif skk_mode == 'hankata'
+    return 'ｱｧ '
+  elseif skk_mode == 'zenkaku'
+    return 'Ａａ '
+  else
+    return ''
+  endif
+endfunction
+set statusline=%{GetSkkStatusline()}%<%f\ %h%w%m%r%=%y\ %-14.(%l,%c%V%)\ %P
