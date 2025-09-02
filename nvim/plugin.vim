@@ -315,4 +315,4 @@ function! GetSkkStatusline() abort
     return ''
   endif
 endfunction
-set statusline=%{GetSkkStatusline()}%<%f\ %h%w%m%r%=%y\ %-14.(%l,%c%V%)\ %P
+set statusline=%{GetSkkStatusline()}%<%f\ %y%h%w%m%r%=\ %-14.(%l,%c%V%)\ %P
