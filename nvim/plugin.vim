@@ -12,7 +12,6 @@ Jetpack 'neoclide/coc.nvim', { 'branch': 'release' }
 Jetpack 'mfussenegger/nvim-dap'
 Jetpack 'mfussenegger/nvim-dap-python'
 Jetpack 'sainnhe/everforest'
-Jetpack 'MeanderingProgrammer/render-markdown.nvim'
 Jetpack 'gosukiwi/vim-smartpairs'
 Jetpack 'dominikduda/vim_current_word'
 Jetpack 'nvim-treesitter/nvim-treesitter'
@@ -251,15 +250,6 @@ require'treesitter-context'.setup {
   separator = '-',
   mode = 'topline'
 }
-require('render-markdown').setup({
-    heading = {
-        width = 'block',
-        left_pad = 0,
-        right_pad = 4,
-        icons = {'# ',},
-        sign = false,
-    },
-})
 EOF
 
 " Gin.vim
