@@ -55,6 +55,7 @@ function DdcSettings() abort
   \   'minAutoCompleteLength': 1,
   \  },
   \ })
+  call ddc#custom#patch_buffer('specialBufferCompletion', v:true)
   call ddc#enable()
 endfunction
 
