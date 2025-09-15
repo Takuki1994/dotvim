@@ -56,13 +56,13 @@ cnoremap <Leader><Leader>date <C-R>=strftime('%Y-%m-%d')<CR>
 inoremap <Leader><Leader>time <C-R>=strftime('%Y-%m-%d_%H-%M')<CR>
 cnoremap <Leader><Leader>time <C-R>=strftime('%Y-%m-%d_%H-%M')<CR>
 let scratch_cmd = ':setlocal buftype=nofile bufhidden=hide noswapfile|:file '
-nnoremap <expr> <Leader>se ':ene\|' . scratch_cmd
+nnoremap <silent> <expr> <Leader>se ':ene\|' . scratch_cmd
       \. input('scratch name: ') . '<CR>'
-nnoremap <expr> <Leader>st ':tabe\|' . scratch_cmd
+nnoremap <silent> <expr> <Leader>st ':tabe\|' . scratch_cmd
       \. input('scratch name: ') . '<CR>'
-nnoremap <expr> <Leader>sv ':vs\|:ene\|' . scratch_cmd
+nnoremap <silent> <expr> <Leader>sv ':vs\|:ene\|' . scratch_cmd
       \. input('scratch name: ') . '<CR>'
-nnoremap <expr> <Leader>ss ':sp\|:ene\|' . scratch_cmd
+nnoremap <silent> <expr> <Leader>ss ':sp\|:ene\|' . scratch_cmd
       \. input('scratch name: ') . '<CR>'
 
 " plugin
