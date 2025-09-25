@@ -8,26 +8,25 @@ Jetpack 'easymotion/vim-easymotion'
 Jetpack 'dinhhuy258/git.nvim'
 Jetpack 'lewis6991/gitsigns.nvim'
 Jetpack 'https://github.com/lukas-reineke/indent-blankline.nvim'
-Jetpack 'neoclide/coc.nvim', { 'branch': 'release' }
-Jetpack 'mfussenegger/nvim-dap'
-Jetpack 'mfussenegger/nvim-dap-python'
 Jetpack 'sainnhe/everforest'
 Jetpack 'gosukiwi/vim-smartpairs'
 Jetpack 'dominikduda/vim_current_word'
-Jetpack 'nvim-treesitter/nvim-treesitter'
-Jetpack 'nvim-treesitter/nvim-treesitter-context'
-Jetpack 'Shougo/ddc.vim'
-Jetpack 'Shougo/ddc-ui-native'
 Jetpack 'junegunn/fzf'
 Jetpack 'junegunn/fzf.vim'
 Jetpack 'norcalli/nvim-colorizer.lua'
 Jetpack 'goolord/alpha-nvim'
 Jetpack 'MaximilianLloyd/ascii.nvim'
-Jetpack 'vim-denops/denops.vim'
-Jetpack 'lambdalisue/vim-gin'
 Jetpack 'bullets-vim/bullets.vim'
 Jetpack 'vim-jp/vimdoc-ja'
+" Node.js依存
+Jetpack 'nvim-treesitter/nvim-treesitter'
+Jetpack 'nvim-treesitter/nvim-treesitter-context'
+" deno依存
+Jetpack 'vim-denops/denops.vim'
 Jetpack 'vim-skk/skkeleton'
+Jetpack 'lambdalisue/vim-gin'
+Jetpack 'Shougo/ddc.vim'
+Jetpack 'Shougo/ddc-ui-native'
 
 call jetpack#end()
 
@@ -59,15 +58,6 @@ function DdcSettings() abort
   call ddc#enable()
 endfunction
 
-function! EnableDdc() abort
-  let b:coc_suggest_disable = v:true
-  call DdcSettings()
-endfunction
-function! DisableDdc() abort
-  let b:coc_suggest_disable = v:false
-  call ddc#custom#patch_global('sourceOptions', {})
-endfunction
-
 " skkeleton
 call skkeleton#initialize()
 imap <C-j> <Plug>(skkeleton-toggle)
@@ -89,83 +79,7 @@ call skkeleton#config({
   \ 'eggLikeNewline': v:true,
   \ 'globalDictionaries': ['~\.config\skk\SKK-JISYO.L']
   \ })
-augroup skkeleton-coc
-  autocmd!
-  autocmd User skkeleton-enable-pre call EnableDdc()
-  autocmd User skkeleton-disable-pre call DisableDdc()
-augroup END
-
-" DAP
-if !exists('g:vscode')
-lua << EOF
-  require('dap-python').setup('uv')
-  require('dap-python').test_runner = 'pytest'
-  vim.keymap.set('n', '<F5>', function() require('dap').continue() end)
-  vim.keymap.set('n', '<F10>', function() require('dap').step_over() end)
-  vim.keymap.set('n', '<F11>', function() require('dap').step_into() end)
-  vim.keymap.set('n', '<F12>', function() require('dap').step_out() end)
-  vim.keymap.set('n', '<Leader>b', function() require('dap').toggle_breakpoint() end)
-  vim.keymap.set('n', '<Leader>B', function() require('dap').set_breakpoint() end)
-  vim.keymap.set('n', '<Leader>lp', function() require('dap').set_breakpoint(nil, nil, vim.fn.input('Log point message: ')) end)
-  vim.keymap.set('n', '<Leader>dr', function() require('dap').repl.open() end)
-  vim.keymap.set('n', '<Leader>dl', function() require('dap').run_last() end)
-  vim.keymap.set({'n', 'v'}, '<Leader>dh', function()
-    require('dap.ui.widgets').hover()
-  end)
-  vim.keymap.set({'n', 'v'}, '<Leader>dp', function()
-    require('dap.ui.widgets').preview()
-  end)
-  vim.keymap.set('n', '<Leader>df', function()
-    local widgets = require('dap.ui.widgets')
-    widgets.centered_float(widgets.frames)
-  end)
-  vim.keymap.set('n', '<Leader>ds', function()
-    local widgets = require('dap.ui.widgets')
-    widgets.centered_float(widgets.scopes)
-  end)
-  require("dap").adapters.gdb = {
-    type = "executable",
-    command = "gdb",
-    args = { "--interpreter=dap", "--eval-command", "set print pretty on" }
-  }
-  local dap = require("dap")
-  dap.configurations.c = {
-    {
-      name = "Launch",
-      type = "gdb",
-      request = "launch",
-      program = function()
-        return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
-      end,
-      cwd = "${workspaceFolder}",
-      stopAtBeginningOfMainSubprogram = false,
-    },
-    {
-      name = "Select and attach to process",
-      type = "gdb",
-      request = "attach",
-      program = function()
-         return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
-      end,
-      pid = function()
-         local name = vim.fn.input('Executable name (filter): ')
-         return require("dap.utils").pick_process({ filter = name })
-      end,
-      cwd = '${workspaceFolder}'
-    },
-    {
-      name = 'Attach to gdbserver :1234',
-      type = 'gdb',
-      request = 'attach',
-      target = 'localhost:1234',
-      program = function()
-         return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
-      end,
-      cwd = '${workspaceFolder}'
-    },
-  }
-EOF
-endif
+call DdcSettings()
 
 " zenhan
 " IME off
@@ -185,44 +99,15 @@ source `=g:nvim_home . '/theme.vim'`
 source `=g:nvim_home . '/highlight.vim'`
 
 " lua plugin settings
-
-if !exists('g:vscode')
-  " Git
-  lua require'git'.setup()
+" Git
+lua require'git'.setup()
 lua << EOF
   require'gitsigns'.setup {
     signcolumn = true,
     numhl = true,
   }
 EOF
-  " coc.nvim
-  nmap <silent> <leader><leader>df <Plug>(coc-definition)
-  nmap <silent> <leader><leader>rf <Plug>(coc-references)
-  inoremap <silent><expr> <TAB>
-    \ coc#pum#visible() ? coc#pum#next(1) :
-    \ CheckBackspace() ? "\<Tab>" :
-    \ coc#refresh()
-  inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
-  " Make <CR> to accept selected completion item or notify coc.nvim to format
-  " <C-g>u breaks current undo, please make your own choice
-  inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() :
-    \ "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
-  function! CheckBackspace() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~# '\s'
-  endfunction
-  " Use <c-space> to trigger completion
-  if has('nvim')
-    inoremap <silent><expr> <c-space> coc#refresh()
-  else
-    inoremap <silent><expr> <c-@> coc#refresh()
-  endif
-
-endif  " !exists('g:vscode')
-
-
-set cole=2
 lua << EOF
 require'nvim-treesitter.configs'.setup {
   highlight = {
