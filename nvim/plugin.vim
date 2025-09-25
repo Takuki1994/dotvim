@@ -18,7 +18,7 @@ Jetpack 'goolord/alpha-nvim'
 Jetpack 'MaximilianLloyd/ascii.nvim'
 Jetpack 'bullets-vim/bullets.vim'
 Jetpack 'vim-jp/vimdoc-ja'
-" Node.js依存
+" treesitter依存
 Jetpack 'nvim-treesitter/nvim-treesitter'
 Jetpack 'nvim-treesitter/nvim-treesitter-context'
 " deno依存
@@ -27,6 +27,10 @@ Jetpack 'vim-skk/skkeleton'
 Jetpack 'lambdalisue/vim-gin'
 Jetpack 'Shougo/ddc.vim'
 Jetpack 'Shougo/ddc-ui-native'
+Jetpack 'tani/ddc-fuzzy'
+Jetpack 'matsui54/ddc-source-buffer'
+Jetpack 'Shougo/ddc-source-around'
+Jetpack 'gamoutatsumi/dps-ghosttext.vim'
 
 call jetpack#end()
 
@@ -43,17 +47,33 @@ set helplang=ja,en
 " ddc.vim
 function DdcSettings() abort
   call ddc#custom#patch_global('ui', 'native')
-  call ddc#custom#patch_global('sources', ['skkeleton'])
+  call ddc#custom#patch_global('sources', [
+        \'skkeleton',
+        \'around',
+        \'buffer',
+        \])
   call ddc#custom#patch_global('sourceOptions', {
-  \ 'skkeleton': {
-  \   'mark': 'skkeleton',
-  \   'matchers': [],
-  \   'sorters': [],
-  \   'converters': [],
-  \   'isVolatile': v:true,
-  \   'minAutoCompleteLength': 1,
-  \  },
-  \ })
+        \'skkeleton': {
+        \ 'mark': 'skkeleton',
+        \ 'matchers': [],
+        \ 'sorters': [],
+        \ 'converters': [],
+        \ 'isVolatile': v:true,
+        \ 'minAutoCompleteLength': 1,
+        \},
+        \'buffer': #{
+        \ mark: 'buffer',
+        \},
+        \'around': #{
+        \ mark: 'around',
+        \},
+        \'_': #{
+        \ matchers: ['matcher_fuzzy'],
+        \ sorters: ['sorter_fuzzy'],
+        \ converters: ['converter_fuzzy'],
+        \ ignoreCase: v:true,
+        \},
+        \})
   call ddc#custom#patch_buffer('specialBufferCompletion', v:true)
   call ddc#enable()
 endfunction
