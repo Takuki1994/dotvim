@@ -14,6 +14,8 @@ set termguicolors
 set listchars=eol:↴,tab:>.,trail:⋅
 set list
 set nowrap
+set ignorecase
+set smartcase
 " indent settings
 set expandtab
 set tabstop=4

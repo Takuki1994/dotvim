@@ -74,7 +74,7 @@ function DdcSettings() abort
         \ ignoreCase: v:true,
         \},
         \})
-  call ddc#custom#patch_buffer('specialBufferCompletion', v:true)
+  call ddc#custom#patch_global('specialBufferCompletion', v:true)
   call ddc#enable()
 endfunction
 
