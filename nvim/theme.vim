@@ -1,7 +1,6 @@
 let path = expand(g:nvim_home . '/.dark_mode')
 let time = str2nr(strftime('%y%m%d%H%M'))
-      \- str2nr(strftime('%y%m%d%H%M',
-                          \getftime(path)))
+      \- str2nr(strftime('%y%m%d%H%M', getftime(path)))
 
 if time >= 30
   let dark_mode = system('powershell.exe Get-ItemProperty
@@ -18,10 +17,7 @@ source `=g:nvim_home . '/.dark_mode'`
 
 if g:dark_mode
   set background=dark
-  let g:everforest_background = 'soft'
-  colorscheme everforest
 else
   set background=light
-  let g:everforest_background = 'medium'
-  colorscheme everforest
 endif
+colorscheme everforest
