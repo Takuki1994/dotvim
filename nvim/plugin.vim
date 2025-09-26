@@ -167,6 +167,7 @@ let g:EasyMotion_use_migemo = 1
 source `=g:nvim_home . '/startify.vim'`
 lua require'alpha'.setup(require'alpha.themes.dashboard'.config)
 augroup alpha-nvim
+  autocmd!
   autocmd FileType alpha setlocal scrolloff=0
 augroup END
 

@@ -24,6 +24,7 @@ set cursorline
 set cursorlineopt=line
 set textwidth=0
 augroup column_highlight
+  autocmd!
   autocmd FileType c,cpp setlocal colorcolumn=79
   autocmd FileType vim setlocal colorcolumn=79
   autocmd FileType python setlocal colorcolumn=79
@@ -33,15 +34,18 @@ augroup END
 " nvimだと半角カナの濁点の表示とカーソル移動の扱いが一致せず表示が崩れるので
 " 応急処置として半角カナをすべて全角と同じ幅で扱う
 augroup hankaku_kana
+  autocmd!
   autocmd VimEnter * call setcellwidths([[0xff66,0xff9d,2]])
 augroup END
 set delcombine
 filetype plugin on
 filetype indent on
 augroup filetype_indent
+  autocmd!
   autocmd FileType vim setlocal sw=2 sts=2 ts=2 et
 augroup END
 augroup todo
+  autocmd!
   autocmd BufNewFile,BufRead [tT]odo.txt,[iI]nbox.txt,[dD]one.txt
         \ set syntax=todo
 augroup END
