@@ -99,6 +99,18 @@ call skkeleton#config({
   \ 'eggLikeNewline': v:true,
   \ 'globalDictionaries': ['~\.config\skk\SKK-JISYO.L']
   \ })
+" lで小文字を打てるようにする
+call skkeleton#register_kanatable('rom', {
+      \   'l': v:false,
+      \   'la': ['ぁ'],
+      \   'li': ['ぃ'],
+      \   'lu': ['ぅ'],
+      \   'le': ['ぇ'],
+      \   'lo': ['ぉ'],
+      \   'lya': ['ゃ'],
+      \   'lyu': ['ゅ'],
+      \   'lyo': ['ょ'],
+      \ })
 call DdcSettings()
 
 " zenhan
