@@ -66,6 +66,8 @@ nnoremap <silent> <expr> <Leader>sv ':vs\|:ene\|' . scratch_cmd
       \. input('scratch name: ') . '<CR>'
 nnoremap <silent> <expr> <Leader>ss ':sp\|:ene\|' . scratch_cmd
       \. input('scratch name: ') . '<CR>'
+nnoremap <silent> <expr> <Leader>tt ':tabe\|:terminal<CR>file '
+      \. input('terminal name: ') . '<CR>'
 
 " plugin
 source `=g:nvim_home . '/plugin.vim'`
