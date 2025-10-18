@@ -2,7 +2,7 @@ let path = expand(g:nvim_home . '/.dark_mode')
 let time = str2nr(strftime('%y%m%d%H%M'))
       \- str2nr(strftime('%y%m%d%H%M', getftime(path)))
 
-if time >= 30
+if time >= g:background_check_time
   let dark_mode = system('powershell.exe Get-ItemProperty
         \ -Path \"HKCU:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize\"
         \ -Name AppsUseLightTheme

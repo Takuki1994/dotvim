@@ -1,6 +1,7 @@
 let $shell="cmd"
 
 " let g:nvim_home=<nvimフォルダへのパス>
+" g:background_check_time=ダークモード、ライトモード切り替え間隔
 source ~\.config\nvim\.env
 
 " spell settings
