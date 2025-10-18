@@ -49,6 +49,7 @@ function DdcSettings() abort
   call ddc#custom#patch_global('ui', 'native')
   call ddc#custom#patch_global('sources', [
         \'skkeleton',
+        \'skkeleton_okuri',
         \'around',
         \'buffer',
         \])
@@ -60,6 +61,13 @@ function DdcSettings() abort
         \ 'converters': [],
         \ 'isVolatile': v:true,
         \ 'minAutoCompleteLength': 1,
+        \},
+        \'skkeleton_okuri': {
+        \ 'mark': 'skkeleton*',
+        \ 'matchers': [],
+        \ 'sorters': [],
+        \ 'converters': [],
+        \ 'isVolatile': v:true,
         \},
         \'buffer': #{
         \ mark: 'buffer',
