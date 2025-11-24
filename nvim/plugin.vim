@@ -88,8 +88,12 @@ endfunction
 
 " skkeleton
 call skkeleton#initialize()
-imap <C-j> <Plug>(skkeleton-toggle)
-cmap <C-j> <Plug>(skkeleton-toggle)
+imap <C-l> <Plug>(skkeleton-toggle)
+cmap <C-l> <Plug>(skkeleton-toggle)
+call skkeleton#register_keymap('input', "\<CR>", 'newline')
+call skkeleton#register_keymap('henkan', "\<CR>", 'newline')
+call skkeleton#register_keymap('input', "\<NL>", 'newline')
+call skkeleton#register_keymap('henkan', "\<NL>", 'newline')
 function! s:skkeleton_init() abort
    call skkeleton#config({
      \ 'eggLikeNewline': v:true,
