@@ -17,6 +17,7 @@ set list
 set nowrap
 set ignorecase
 set smartcase
+set makeprg=just
 " indent settings
 set expandtab
 set tabstop=4
