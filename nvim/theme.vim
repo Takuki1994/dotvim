@@ -17,7 +17,8 @@ source `=g:nvim_home . '/.dark_mode'`
 
 if g:dark_mode
   set background=dark
+  colorscheme everforest
 else
   set background=light
+  colorscheme catppuccin_latte
 endif
-colorscheme everforest
