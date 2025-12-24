@@ -20,7 +20,7 @@ Jetpack 'MaximilianLloyd/ascii.nvim'
 Jetpack 'bullets-vim/bullets.vim'
 Jetpack 'vim-jp/vimdoc-ja'
 " treesitter依存
-Jetpack 'nvim-treesitter/nvim-treesitter'
+Jetpack 'nvim-treesitter/nvim-treesitter' , { 'branch': 'main' }
 Jetpack 'nvim-treesitter/nvim-treesitter-context'
 " deno依存
 Jetpack 'vim-denops/denops.vim'
@@ -154,11 +154,7 @@ lua << EOF
 EOF
 
 lua << EOF
-require'nvim-treesitter.configs'.setup {
-  highlight = {
-    enable = true,
-  }
-}
+require'nvim-treesitter'.setup {}
 require'treesitter-context'.setup {
   enable = true,
   multiline_threshold = 1,
