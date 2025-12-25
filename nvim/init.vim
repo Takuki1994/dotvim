@@ -1,4 +1,4 @@
-let $shell="cmd"
+set shell=cmd
 
 " let g:nvim_home=<nvimフォルダへのパス>
 " let g:disable_auto_theme_change=0 
