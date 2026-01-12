@@ -134,3 +134,13 @@ function! CompleteTypos(findstart, base)
     return list
 endfunction
 set completefunc=CompleteTypos
+
+" findfunc
+function! s:FindFunc(cmdarg, complete)
+  let l:result = globpath('.', '**', 0, 1)
+        \->filter({k,v -> !isdirectory(v)})
+        \->mapnew({k,v -> v->substitute('^\.[\/\\]','','')})
+  return l:result->matchfuzzy(a:cmdarg)
+endfunction
+set wildignore=.git/**
+set findfunc=s:FindFunc
