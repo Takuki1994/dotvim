@@ -138,6 +138,10 @@ set completefunc=CompleteTypos
 
 " findfunc
 function! s:FindFunc(cmdarg, complete)
+  if filereadable(a:cmdarg)
+    " 入力した文字列が存在するファイルパスの場合はそのまま返す
+    return [a:cmdarg]
+  endif
   let l:result = globpath('.', '**', 0, 1)
         \->filter({k,v -> !isdirectory(v)})
         \->mapnew({k,v -> v->substitute('^\.[\/\\]','','')})
