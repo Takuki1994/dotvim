@@ -32,6 +32,10 @@ Jetpack 'tani/ddc-fuzzy'
 Jetpack 'matsui54/ddc-source-buffer'
 Jetpack 'Shougo/ddc-source-around'
 Jetpack 'gamoutatsumi/dps-ghosttext.vim'
+" github copilot
+Jetpack 'github/copilot.vim'
+Jetpack 'nvim-lua/plenary.nvim'
+Jetpack 'CopilotC-Nvim/CopilotChat.nvim'
 
 call jetpack#end()
 
@@ -89,8 +93,8 @@ endfunction
 
 " skkeleton
 call skkeleton#initialize()
-imap <C-l> <Plug>(skkeleton-toggle)
-cmap <C-l> <Plug>(skkeleton-toggle)
+imap <C-f> <Plug>(skkeleton-toggle)
+cmap <C-f> <Plug>(skkeleton-toggle)
 call skkeleton#register_keymap('input', "\<CR>", 'newline')
 call skkeleton#register_keymap('henkan', "\<CR>", 'newline')
 call skkeleton#register_keymap('input', "\<NL>", 'newline')
