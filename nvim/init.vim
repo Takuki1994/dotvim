@@ -62,15 +62,15 @@ inoremap <Leader><Leader>time <C-R>=strftime('%Y-%m-%d_%H-%M')<CR>
 cnoremap <Leader><Leader>time <C-R>=strftime('%Y-%m-%d_%H-%M')<CR>
 let scratch_cmd = ':setlocal buftype=nofile bufhidden=hide noswapfile|:file '
 nnoremap <silent> <expr> <Leader>se ':ene\|' . scratch_cmd
-      \. input('scratch name: ') . '<CR>'
+      \. strftime('%Y%m%d%H%M%S') . '<CR>'
 nnoremap <silent> <expr> <Leader>st ':tabe\|' . scratch_cmd
-      \. input('scratch name: ') . '<CR>'
+      \. strftime('%Y%m%d%H%M%S') . '<CR>'
 nnoremap <silent> <expr> <Leader>sv ':vs\|:ene\|' . scratch_cmd
-      \. input('scratch name: ') . '<CR>'
+      \. strftime('%Y%m%d%H%M%S') . '<CR>'
 nnoremap <silent> <expr> <Leader>ss ':sp\|:ene\|' . scratch_cmd
-      \. input('scratch name: ') . '<CR>'
+      \. strftime('%Y%m%d%H%M%S') . '<CR>'
 nnoremap <silent> <expr> <Leader>tt ':tabe\|:terminal<CR>file '
-      \. input('terminal name: ') . '<CR>'
+      \. strftime('%Y%m%d%H%M%S') . '<CR>'
 
 " plugin
 source `=g:nvim_home . '/plugin.vim'`
