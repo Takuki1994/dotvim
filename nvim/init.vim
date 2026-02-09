@@ -60,7 +60,7 @@ inoremap <Leader><Leader>date <C-R>=strftime('%Y-%m-%d')<CR>
 cnoremap <Leader><Leader>date <C-R>=strftime('%Y-%m-%d')<CR>
 inoremap <Leader><Leader>time <C-R>=strftime('%Y-%m-%d_%H-%M')<CR>
 cnoremap <Leader><Leader>time <C-R>=strftime('%Y-%m-%d_%H-%M')<CR>
-let scratch_cmd = ':setlocal buftype=nofile bufhidden=hide noswapfile|:file '
+let scratch_cmd = ':setlocal buftype=nofile bufhidden=hide noswapfile|:file memo_'
 nnoremap <silent> <expr> <Leader>se ':ene\|' . scratch_cmd
       \. strftime('%Y%m%d%H%M%S') . '<CR>'
 nnoremap <silent> <expr> <Leader>st ':tabe\|' . scratch_cmd
@@ -69,8 +69,18 @@ nnoremap <silent> <expr> <Leader>sv ':vs\|:ene\|' . scratch_cmd
       \. strftime('%Y%m%d%H%M%S') . '<CR>'
 nnoremap <silent> <expr> <Leader>ss ':sp\|:ene\|' . scratch_cmd
       \. strftime('%Y%m%d%H%M%S') . '<CR>'
-nnoremap <silent> <expr> <Leader>tt ':tabe\|:terminal<CR>file '
+if executable('pwsh')
+  nnoremap <silent> <expr> <Leader>tt ':tabe\|:terminal pwsh<CR>\|:file pwsh_'
       \. strftime('%Y%m%d%H%M%S') . '<CR>'
+  nnoremap <silent> <expr> <Leader>tv ':vs\|:terminal pwsh<CR>\|:file pwsh_'
+      \. strftime('%Y%m%d%H%M%S') . '<CR>'
+else
+  nnoremap <silent> <expr> <Leader>tt ':tabe\|:terminal<CR>\|:file cmd_'
+      \. strftime('%Y%m%d%H%M%S') . '<CR>'
+  nnoremap <silent> <expr> <Leader>tv ':vs\|:terminal<CR>\|:file cmd_'
+      \. strftime('%Y%m%d%H%M%S') . '<CR>'
+endif
+
 
 " plugin
 source `=g:nvim_home . '/plugin.vim'`
