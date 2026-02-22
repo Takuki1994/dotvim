@@ -70,6 +70,8 @@ nnoremap <silent> <expr> <Leader>sv ':vs\|:ene\|' . scratch_cmd
 nnoremap <silent> <expr> <Leader>ss ':sp\|:ene\|' . scratch_cmd
       \. strftime('%Y%m%d%H%M%S') . '<CR>'
 if executable('pwsh')
+  nnoremap <silent> <expr> <Leader>te ':terminal pwsh<CR>\|:file pwsh_'
+      \. strftime('%Y%m%d%H%M%S') . '<CR>'
   nnoremap <silent> <expr> <Leader>tt ':tabe\|:terminal pwsh<CR>\|:file pwsh_'
       \. strftime('%Y%m%d%H%M%S') . '<CR>'
   nnoremap <silent> <expr> <Leader>tv ':vs\|:terminal pwsh<CR>\|:file pwsh_'
