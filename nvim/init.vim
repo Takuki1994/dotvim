@@ -6,6 +6,11 @@ source ~\.config\nvim\.env
 
 " spell settings
 syntax on
+set spell
+set spelllang=en_us,cjk
+set spellcapcheck=
+set spellsuggest=best,5
+set spelloptions=camel,noplainbuffer
 
 " vim settings
 let mapleader=","
@@ -26,10 +31,6 @@ set shiftwidth=4
 set cursorline
 set cursorlineopt=line
 set textwidth=0
-set spell
-set spelllang=en_us,cjk
-set spellcapcheck=
-set spellsuggest=best,5
 augroup column_highlight
   autocmd!
   autocmd FileType c,cpp setlocal colorcolumn=79
