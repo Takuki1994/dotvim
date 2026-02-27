@@ -26,6 +26,10 @@ set shiftwidth=4
 set cursorline
 set cursorlineopt=line
 set textwidth=0
+set spell
+set spelllang=en_us,cjk
+set spellcapcheck=
+set spellsuggest=best,5
 augroup column_highlight
   autocmd!
   autocmd FileType c,cpp setlocal colorcolumn=79
@@ -161,3 +165,18 @@ function! s:FindFunc(cmdarg, complete)
 endfunction
 set wildignore=.git/**
 set findfunc=s:FindFunc
+
+if executable('typos')
+  function s:SpellTypos()
+    let json_str = system("echo " . v:val . " | typos - --format json")->substitute('\([:,]\)', '\1 ', 'g')
+    let result = []
+    for item in json_decode(json_str).corrections
+      let test = "test"
+      echo item
+      call add(result, [item, 0])
+    endfor
+
+    return result
+  endfunction
+  set spellsuggest=expr:s:SpellTypos()
+endif
