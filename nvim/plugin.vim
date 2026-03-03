@@ -176,7 +176,7 @@ nnoremap <silent> <leader>gd <Cmd>tabedit\|:GinDiff<CR>
 nnoremap <silent> <leader>gA <Cmd>:Gin add -A<CR>
 nnoremap <silent> <leader>gc <Cmd>:Gin commit -v<CR>
 
-" colorier.nvim
+" colorizer.nvim
 lua require'colorizer'.setup()
 
 " easymotion
