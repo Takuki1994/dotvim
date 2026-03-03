@@ -221,3 +221,7 @@ function! GetSkkStatusline() abort
   endif
 endfunction
 set statusline=%{GetSkkStatusline()}%<%f\ %y%h%w%m%r%=\ %-14.(%l,%c%V%)\ %P
+
+" copilot.vim
+inoremap <silent> <leader><C-W> <Plug>(copilot-accept-word)
+inoremap <silent> <leader><C-L> <Plug>(copilot-accept-line)
