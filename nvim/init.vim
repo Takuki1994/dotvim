@@ -201,3 +201,38 @@ if executable('copilot')
 
   nnoremap <silent> <Leader>cc :call <SID>OpenCopilotTerminal()<CR>
 endif
+
+if executable('git')
+  " a:nameという名前のterminalをa:cmdを実行してa:split_strで起動する。
+  " すでに同名のterminalが存在する場合は再利用してa:split_strで表示する。
+  function! s:OpenCommandTerminal(name, cmd, split_str)
+    " git rev-parse --is-inside-work-treeで現在のディレクトリが
+    " gitリポジトリ内かどうかを確認し、リポジトリ内でない場合は処理を中断する
+    if system('git rev-parse --is-inside-work-tree 2>&1') !~ 'true'
+      echo 'Not inside a git repository.'
+      return
+    endif
+    let l:term_bufnr = bufexists('term://' . a:name) ? bufnr('term://' . a:name) : -1
+    if l:term_bufnr == -1
+      " ターミナルが存在しない場合は新規作成
+      execute a:split_str . ' | terminal cmd /c ' . a:cmd
+      execute 'file ' . a:name
+    else
+      " ターミナルが存在する場合は再利用して表示
+      execute a:split_str . ' | buffer ' . l:term_bufnr
+    endif
+    " insertモードに入る
+    startinsert
+  endfunction
+
+  nnoremap <silent> <Leader>gs :call <SID>OpenCommandTerminal('git_status', 'git status', ':vs')<CR>
+  nnoremap <silent> <Leader>gt :call <SID>OpenCommandTerminal('git_tree', 'git tree', ':sp')<CR>
+  nnoremap <silent> <Leader>gl :call <SID>OpenCommandTerminal('git_log', 'git log', ':sp')<CR>
+  nnoremap <silent> <Leader>gL :call <SID>OpenCommandTerminal('git_log', 'git log --full-diff', ':sp')<CR>
+  nnoremap <silent> <Leader>gd :call <SID>OpenCommandTerminal('git_diff', 'git diff', ':vs')<CR>
+  nnoremap <silent> <Leader>gD :call <SID>OpenCommandTerminal('git_diff', 'git diff --cached', ':vs')<CR>
+  nnoremap <silent> <Leader>ga :call <SID>OpenCommandTerminal('git_add', 'git add -p', ':vs')<CR>
+  nnoremap <silent> <Leader>gA :!git add .<CR>
+  nnoremap <silent> <Leader>gc :call <SID>OpenCommandTerminal('git_commit', 'git commit', ':vs')<CR>
+  nnoremap <silent> <Leader>gC :call <SID>OpenCommandTerminal('git_commit', 'git commit -v', ':vs')<CR>
+endif

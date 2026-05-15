@@ -23,7 +23,6 @@ Jetpack 'nvim-treesitter/nvim-treesitter-context'
 " deno依存
 Jetpack 'vim-denops/denops.vim'
 Jetpack 'vim-skk/skkeleton'
-Jetpack 'lambdalisue/vim-gin'
 Jetpack 'Shougo/ddc.vim'
 Jetpack 'Shougo/ddc-ui-native'
 Jetpack 'tani/ddc-fuzzy'
