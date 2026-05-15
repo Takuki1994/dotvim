@@ -12,7 +12,7 @@ Jetpack 'sainnhe/everforest'
 Jetpack 'catppuccin/vim' , { 'as': 'catppuccin.vim' }
 Jetpack 'junegunn/fzf'
 Jetpack 'junegunn/fzf.vim'
-Jetpack 'norcalli/nvim-colorizer.lua'
+Jetpack 'catgoose/nvim-colorizer.lua'
 Jetpack 'goolord/alpha-nvim'
 Jetpack 'MaximilianLloyd/ascii.nvim'
 Jetpack 'bullets-vim/bullets.vim'
