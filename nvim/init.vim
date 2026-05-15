@@ -23,7 +23,6 @@ set nowrap
 set ignorecase
 set smartcase
 set makeprg=just
-set splitright
 " indent settings
 set expandtab
 set tabstop=4
@@ -180,4 +179,25 @@ if executable('typos')
     return result
   endfunction
   set spellsuggest=expr:s:SpellTypos()
+endif
+
+if executable('copilot')
+  " `copilot`という名前のterminalをvsplitで起動する。
+  " すでに同名のterminalが存在する場合は再利用してvsplitで表示する。
+  function! s:OpenCopilotTerminal()
+    let l:term_name = 'copilot'
+    let l:term_bufnr = bufexists('term://' . l:term_name) ? bufnr('term://' . l:term_name) : -1
+    if l:term_bufnr == -1
+      " ターミナルが存在しない場合は新規作成
+      execute 'vsplit | terminal cmd /c copilot --banner --model auto'
+      execute 'file ' . l:term_name
+    else
+      " ターミナルが存在する場合は再利用して表示
+      execute 'vsplit | buffer ' . l:term_bufnr
+    endif
+    " insertモードに入る
+    startinsert
+  endfunction
+
+  nnoremap <silent> <Leader>cc :call <SID>OpenCopilotTerminal()<CR>
 endif

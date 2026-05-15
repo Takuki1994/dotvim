@@ -32,8 +32,6 @@ Jetpack 'Shougo/ddc-source-around'
 Jetpack 'gamoutatsumi/dps-ghosttext.vim'
 " github copilot
 Jetpack 'github/copilot.vim'
-Jetpack 'nvim-lua/plenary.nvim'
-Jetpack 'CopilotC-Nvim/CopilotChat.nvim'
 
 call jetpack#end()
 
