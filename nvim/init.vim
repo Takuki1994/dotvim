@@ -133,26 +133,28 @@ augroup vimrc-auto-mkdir  " {{{
   endfunction  " }}}
 augroup END  " }}}
 
-" complete functions
-function! CompleteTypos(findstart, base)
-    if a:findstart
-        " Get cursor word.
-        let cur_text = strpart(getline('.'), 0, col('.') - 1)
+if executable('typos') && executable('perl')
+  " complete functions
+  function! CompleteTypos(findstart, base)
+      if a:findstart
+          " Get cursor word.
+          let cur_text = strpart(getline('.'), 0, col('.') - 1)
 
-        return match(cur_text, '\f*$')
-    endif
+          return match(cur_text, '\f*$')
+      endif
 
-    let words = split(system('set /p x=' . a:base . '|typos - --format brief|perl -pe "s/^.*`.*` should be //;s/[`,]//g"'))
-    let list = []
-    let cnt = 0
-    for word in words
-        call add(list, { 'word' : word, 'menu' : 'typos' })
-        let cnt += 1
-    endfor
+      let words = split(system('set /p x=' . a:base . '|typos - --format brief|perl -pe "s/^.*`.*` should be //;s/[`,]//g"'))
+      let list = []
+      let cnt = 0
+      for word in words
+          call add(list, { 'word' : word, 'menu' : 'typos' })
+          let cnt += 1
+      endfor
 
-    return list
-endfunction
-set completefunc=CompleteTypos
+      return list
+  endfunction
+  set completefunc=CompleteTypos
+endif
 
 " findfunc
 function! s:FindFunc(cmdarg, complete)
