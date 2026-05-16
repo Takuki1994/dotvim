@@ -171,8 +171,6 @@ if executable('typos')
     let json_str = system("echo " . v:val . " | typos - --format json")->substitute('\([:,]\)', '\1 ', 'g')
     let result = []
     for item in json_decode(json_str).corrections
-      let test = "test"
-      echo item
       call add(result, [item, 0])
     endfor
 
