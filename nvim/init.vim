@@ -1,3 +1,4 @@
+" TODO: init.vim が567行と肥大化 → keymaps.vim, commands.vim, functions.vim に分割検討
 set shell=cmd
 
 " let g:nvim_home=<nvimフォルダへのパス>
@@ -89,6 +90,7 @@ endif
 
 
 " plugin
+" TODO: .env.sample ファイルを作成してテンプレート提供（現在.envがgitignore）
 source `=g:nvim_home . '/plugin.vim'`
 
 " grep

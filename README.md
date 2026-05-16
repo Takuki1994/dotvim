@@ -8,6 +8,7 @@ Windows
 
 ## 導入
 
-```pwershell
+<!-- TODO: README を充実させる（プラグイン一覧、キーマップドキュメント） -->
+```pwsh
 sudo New-Item -ItemType SymbolicLink -Path '~\AppData\Local\nvim' -Value .\nvim\
 ```
