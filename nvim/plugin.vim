@@ -163,16 +163,6 @@ require'treesitter-context'.setup {
 }
 EOF
 
-" Gin.vim
-nnoremap <silent> <leader>gp <Cmd>tabedit%\|:GinPatch ++no-head<CR>
-nnoremap <silent> <leader>gP <Cmd>tabedit%\|:GinPatch ++no-worktree<CR>
-nnoremap <silent> <leader>gl <Cmd>:GinLog --oneline --graph<CR>
-nnoremap <silent> <leader>gL <Cmd>:GinLog --oneline --graph<CR>
-nnoremap <silent> <leader>gs <Cmd>tabedit\|:GinStatus<CR>
-nnoremap <silent> <leader>gd <Cmd>tabedit\|:GinDiff<CR>
-nnoremap <silent> <leader>gA <Cmd>:Gin add -A<CR>
-nnoremap <silent> <leader>gc <Cmd>:Gin commit -v<CR>
-
 " colorizer.nvim
 lua require'colorizer'.setup()
 
