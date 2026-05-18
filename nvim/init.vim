@@ -205,6 +205,10 @@ if executable('copilot')
 endif
 
 if executable('git')
+  augroup git_commit
+    autocmd!
+    autocmd FileType gitcommit setlocal fileencoding=utf-8
+  augroup END
   " a:nameという名前のterminalをa:cmdを実行してa:split_strで起動する。
   " すでに同名のterminalが存在する場合は再利用してa:split_strで表示する。
   function! s:OpenCommandTerminal(name, cmd, split_str)
@@ -235,6 +239,6 @@ if executable('git')
   nnoremap <silent> <Leader>gD :call <SID>OpenCommandTerminal('git_diff', 'git diff --cached', ':sp')<CR>
   nnoremap <silent> <Leader>ga :call <SID>OpenCommandTerminal('git_add', 'git add -p', ':sp')<CR>
   nnoremap <silent> <Leader>gA :!git add .<CR>
-  nnoremap <silent> <Leader>gc :call <SID>OpenCommandTerminal('git_commit', 'git commit', ':vs')<CR>
-  nnoremap <silent> <Leader>gC :call <SID>OpenCommandTerminal('git_commit', 'git commit -v', ':vs')<CR>
+  nnoremap <silent> <Leader>gc :call <SID>OpenCommandTerminal('git_commit', 'git commit -v', ':vs')<CR>
+  nnoremap <silent> <Leader>gC :call <SID>OpenCommandTerminal('git_commit_ammend', 'git commit -v --amend', ':vs')<CR>
 endif
