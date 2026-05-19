@@ -247,7 +247,7 @@ if executable('git')
         \ call <SID>OpenCommandTerminal('git_push', 'git push ' . '<args>', ':vs')
   nnoremap <silent> <Leader>gp :call fzf#run({'source': 'git remote',
                                            \'sink': 'GitPushTo',
-                                           \'options': '-1'})<CR>
+                                           \'options': '-1', 'down': '25%'})<CR>
   " ブランチ名を使用するgitコマンド
   command! -nargs=1 GitSwitch
         \ call <SID>OpenCommandTerminal('git_checkout', 'git switch ' . '<args>', ':vs')
@@ -259,14 +259,14 @@ if executable('git')
         \ call <SID>OpenCommandTerminal('git_reset', 'git reset --soft ' . '<args>', ':vs')
   nnoremap <silent> <Leader>gb :call fzf#run({'source': 'git branch -l --format="%%(refname:short)"',
                                            \'sink': 'GitSwitch',
-                                           \'options': '-1'})<CR>
+                                           \'options': '-1', 'down': '25%'})<CR>
   nnoremap <silent> <Leader>gB :call fzf#run({'source': 'git branch -r --format="%%(refname:short)"',
                                            \'sink': 'GitSwitchRemote',
-                                           \'options': '-1'})<CR>
+                                           \'options': '-1', 'down': '25%'})<CR>
   nnoremap <silent> <Leader>gr :call fzf#run({'source': 'git branch -a --format="%%(refname:short)"',
                                            \'sink': 'GitResetHard',
-                                           \'options': '-1'})<CR>
+                                           \'options': '-1', 'down': '25%'})<CR>
   nnoremap <silent> <Leader>gR :call fzf#run({'source': 'git branch -a --format="%%(refname:short)"',
                                            \'sink': 'GitResetSoft',
-                                           \'options': '-1'})<CR>
+                                           \'options': '-1', 'down': '25%'})<CR>
 endif
