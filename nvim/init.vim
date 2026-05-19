@@ -243,30 +243,42 @@ if executable('git')
   nnoremap <silent> <Leader>gC :call <SID>OpenCommandTerminal('git_commit_ammend', 'git commit -v --amend', ':vs')<CR>
   nnoremap <silent> <Leader>gf :call <SID>OpenCommandTerminal('git_fetch', 'git fetch', ':vs')<CR>
 
-  command! -nargs=1 GitPushTo
+  function! s:GitRemoteComplete(arglead, cmdline, cursorpos)
+    let l:remotes = systemlist('git remote')
+          \->mapnew({idx, val-> val->substitute('\r', '', 'g')})
+    return l:remotes->matchfuzzy(a:arglead)
+  endfunction
+  command! -nargs=1 -complete=customlist,s:GitRemoteComplete GitPushTo
         \ call <SID>OpenCommandTerminal('git_push', 'git push ' . '<args>', ':vs')
-  nnoremap <silent> <Leader>gp :call fzf#run({'source': 'git remote',
-                                           \'sink': 'GitPushTo',
-                                           \'options': '-1', 'down': '25%'})<CR>
+  nnoremap <Leader>gp :GitPushTo<Space>
+
+  function! s:GitLocalBranchComplete(arglead, cmdline, cursorpos)
+    let l:branches = systemlist('git branch -l --format="%(refname:short)"')
+          \->mapnew({idx, val-> val->substitute('\r', '', 'g')})
+    return l:branches->matchfuzzy(a:arglead)
+  endfunction
+  function! s:GitRemoteBranchComplete(arglead, cmdline, cursorpos)
+    let l:branches = systemlist('git branch -r --format="%(refname:short)"')
+          \->filter({idx, val -> val->match('^[^\/]+$') == -1})
+          \->mapnew({idx, val-> val->substitute('\r', '', 'g')})
+    return l:branches->matchfuzzy(a:arglead)
+  endfunction
+  function! s:GitAllBranchComplete(arglead, cmdline, cursorpos)
+    let l:branches = systemlist('git branch -a --format="%(refname:short)"')
+          \->mapnew({idx, val-> val->substitute('\r', '', 'g')})
+    return l:branches->matchfuzzy(a:arglead)
+  endfunction
   " ブランチ名を使用するgitコマンド
-  command! -nargs=1 GitSwitch
+  command! -nargs=1 -complete=customlist,s:GitLocalBranchComplete GitSwitch
         \ call <SID>OpenCommandTerminal('git_checkout', 'git switch ' . '<args>', ':vs')
-  command! -nargs=1 GitSwitchRemote
+  command! -nargs=1 -complete=customlist,s:GitRemoteBranchComplete GitSwitchRemote
         \ call <SID>OpenCommandTerminal('git_checkout', 'git switch -c ' . '<args>', ':vs')
-  command! -nargs=1 GitResetHard
+  command! -nargs=1 -complete=customlist,s:GitAllBranchComplete GitResetHard
         \ call <SID>OpenCommandTerminal('git_reset', 'git reset --hard ' . '<args>', ':vs')
-  command! -nargs=1 GitResetSoft
+  command! -nargs=1 -complete=customlist,s:GitAllBranchComplete GitResetSoft
         \ call <SID>OpenCommandTerminal('git_reset', 'git reset --soft ' . '<args>', ':vs')
-  nnoremap <silent> <Leader>gb :call fzf#run({'source': 'git branch -l --format="%%(refname:short)"',
-                                           \'sink': 'GitSwitch',
-                                           \'options': '-1', 'down': '25%'})<CR>
-  nnoremap <silent> <Leader>gB :call fzf#run({'source': 'git branch -r --format="%%(refname:short)"',
-                                           \'sink': 'GitSwitchRemote',
-                                           \'options': '-1', 'down': '25%'})<CR>
-  nnoremap <silent> <Leader>gr :call fzf#run({'source': 'git branch -a --format="%%(refname:short)"',
-                                           \'sink': 'GitResetHard',
-                                           \'options': '-1', 'down': '25%'})<CR>
-  nnoremap <silent> <Leader>gR :call fzf#run({'source': 'git branch -a --format="%%(refname:short)"',
-                                           \'sink': 'GitResetSoft',
-                                           \'options': '-1', 'down': '25%'})<CR>
+  nnoremap <Leader>gb :GitSwitch<Space>
+  nnoremap <Leader>gB :GitSwitchRemote<Space>
+  nnoremap <Leader>gr :GitResetHard<Space>
+  nnoremap <Leader>gR :GitResetSoft<Space>
 endif
