@@ -56,6 +56,8 @@ lua << EOF
   dashboard.section.buttons.val = {
     dashboard.button( "e", "  > New file" , ":ene <BAR> startinsert <CR>"),
     dashboard.button( "s", "  > Search fzf", "<Cmd>Files<CR>"),
+    dashboard.button( "r", "  > Search repositories",
+              "<Cmd>call fzf#run({'source': 'ghq list -p', 'sink': 'cd'})<CR>"),
     dashboard.button( "m", "  > Create memo",
               "<Cmd>:ene|:setl bt=nofile bh=hide noswapfile|:file memo<CR>"),
     dashboard.button( "g", "󰊠  > Start GhostText", "<Cmd>GhostStart<CR>"),
