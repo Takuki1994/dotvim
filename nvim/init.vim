@@ -258,13 +258,15 @@ if executable('git')
     return l:branches->matchfuzzy(a:arglead)
   endfunction
   function! s:GitRemoteBranchComplete(arglead, cmdline, cursorpos)
-    let l:branches = systemlist('git branch -r --format="%(refname:short)"')
-          \->filter({idx, val -> val->match('^[^\/]+$') == -1})
+    let l:branches = systemlist('git branch -r --format="%(refname)"')
+          \->mapnew({idx, val-> val->substitute('^refs\/remotes\/', '', '')})
           \->mapnew({idx, val-> val->substitute('\r', '', 'g')})
     return l:branches->matchfuzzy(a:arglead)
   endfunction
   function! s:GitAllBranchComplete(arglead, cmdline, cursorpos)
-    let l:branches = systemlist('git branch -a --format="%(refname:short)"')
+    let l:branches = systemlist('git branch -a --format="%(refname)"')
+          \->mapnew({idx, val-> val->substitute('^refs\/remotes\/', '', '')})
+          \->mapnew({idx, val-> val->substitute('^refs\/heads\/', '', '')})
           \->mapnew({idx, val-> val->substitute('\r', '', 'g')})
     return l:branches->matchfuzzy(a:arglead)
   endfunction
