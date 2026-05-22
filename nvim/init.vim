@@ -232,12 +232,12 @@ if executable('git')
   endfunction
 
   nnoremap <silent> <Leader>gs :call <SID>OpenCommandTerminal('git_status', 'git status', ':vs')<CR>
-  nnoremap <silent> <Leader>gt :call <SID>OpenCommandTerminal('git_tree', 'git log --graph --all --format="\%x09\%C(cyan)\%h\%Creset \%ar\%x09\%C(green bold)\%an\%Creset \%C(magenta bold)\%d\%Creset \%s', ':sp')<CR>
-  nnoremap <silent> <Leader>gl :call <SID>OpenCommandTerminal('git_log', 'git log', ':sp')<CR>
-  nnoremap <silent> <Leader>gL :call <SID>OpenCommandTerminal('git_log', 'git log -p', ':sp')<CR>
-  nnoremap <silent> <Leader>gd :call <SID>OpenCommandTerminal('git_diff', 'git diff', ':sp')<CR>
-  nnoremap <silent> <Leader>gD :call <SID>OpenCommandTerminal('git_diff', 'git diff --cached', ':sp')<CR>
-  nnoremap <silent> <Leader>ga :call <SID>OpenCommandTerminal('git_add', 'git add -p', ':sp')<CR>
+  nnoremap <silent> <Leader>gt :call <SID>OpenCommandTerminal('git_tree', 'git log --graph --all --format="\%x09\%C(cyan)\%h\%Creset \%ar\%x09\%C(green bold)\%an\%Creset \%C(magenta bold)\%d\%Creset \%s', string(&lines*0.75) . 'sp')<CR>
+  nnoremap <silent> <Leader>gl :call <SID>OpenCommandTerminal('git_log', 'git log', string(&lines*0.75) . 'sp')<CR>
+  nnoremap <silent> <Leader>gL :call <SID>OpenCommandTerminal('git_log', 'git log -p', string(&lines*0.75) . 'sp')<CR>
+  nnoremap <silent> <Leader>gd :call <SID>OpenCommandTerminal('git_diff', 'git diff', string(&lines*0.75) . 'sp')<CR>
+  nnoremap <silent> <Leader>gD :call <SID>OpenCommandTerminal('git_diff', 'git diff --cached', string(&lines*0.75) . 'sp')<CR>
+  nnoremap <silent> <Leader>ga :call <SID>OpenCommandTerminal('git_add', 'git add -p', string(&lines*0.75) . 'sp')<CR>
   nnoremap <silent> <Leader>gA :!git add .<CR>
   nnoremap <silent> <Leader>gc :call <SID>OpenCommandTerminal('git_commit', 'git commit -v', ':vs')<CR>
   nnoremap <silent> <Leader>gC :call <SID>OpenCommandTerminal('git_commit_ammend', 'git commit -v --amend', ':vs')<CR>
