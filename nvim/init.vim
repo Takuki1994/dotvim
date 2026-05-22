@@ -242,6 +242,7 @@ if executable('git')
   nnoremap <silent> <Leader>gc :call <SID>OpenCommandTerminal('git_commit', 'git commit -v', ':vs')<CR>
   nnoremap <silent> <Leader>gC :call <SID>OpenCommandTerminal('git_commit_ammend', 'git commit -v --amend', ':vs')<CR>
   nnoremap <silent> <Leader>gf :call <SID>OpenCommandTerminal('git_fetch', 'git fetch', ':vs')<CR>
+  nnoremap <silent> <Leader>gm :call <SID>OpenCommandTerminal('git_blame', 'git blame %', string(&lines*0.75) . 'sp')<CR>
 
   function! s:GitRemoteComplete(arglead, cmdline, cursorpos)
     let l:remotes = systemlist('git remote')
