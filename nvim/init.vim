@@ -231,19 +231,6 @@ if executable('git')
     startinsert
   endfunction
 
-  nnoremap <silent> <Leader>gs :call <SID>OpenCommandTerminal('git_status', 'git status', ':vs')<CR>
-  nnoremap <silent> <Leader>gt :call <SID>OpenCommandTerminal('git_tree', 'git log --graph --all --format="\%x09\%C(cyan)\%h\%Creset \%ar\%x09\%C(green bold)\%an\%Creset \%C(magenta bold)\%d\%Creset \%s', string(&lines*0.75) . 'sp')<CR>
-  nnoremap <silent> <Leader>gl :call <SID>OpenCommandTerminal('git_log', 'git log', string(&lines*0.75) . 'sp')<CR>
-  nnoremap <silent> <Leader>gL :call <SID>OpenCommandTerminal('git_log', 'git log -p', string(&lines*0.75) . 'sp')<CR>
-  nnoremap <silent> <Leader>gd :call <SID>OpenCommandTerminal('git_diff', 'git diff', string(&lines*0.75) . 'sp')<CR>
-  nnoremap <silent> <Leader>gD :call <SID>OpenCommandTerminal('git_diff', 'git diff --cached', string(&lines*0.75) . 'sp')<CR>
-  nnoremap <silent> <Leader>ga :call <SID>OpenCommandTerminal('git_add', 'git add -p', string(&lines*0.75) . 'sp')<CR>
-  nnoremap <silent> <Leader>gA :!git add .<CR>
-  nnoremap <silent> <Leader>gc :call <SID>OpenCommandTerminal('git_commit', 'git commit -v', ':vs')<CR>
-  nnoremap <silent> <Leader>gC :call <SID>OpenCommandTerminal('git_commit_ammend', 'git commit -v --amend', ':vs')<CR>
-  nnoremap <silent> <Leader>gf :call <SID>OpenCommandTerminal('git_fetch', 'git fetch', ':vs')<CR>
-  nnoremap <silent> <Leader>gm :call <SID>OpenCommandTerminal('git_blame', 'git blame %', string(&lines*0.75) . 'sp')<CR>
-
   function! s:GitRemoteComplete(arglead, cmdline, cursorpos)
     let l:remotes = systemlist('git remote')
           \->mapnew({idx, val-> val->substitute('\r', '', 'g')})
@@ -251,7 +238,6 @@ if executable('git')
   endfunction
   command! -nargs=1 -complete=customlist,s:GitRemoteComplete GitPushTo
         \ call <SID>OpenCommandTerminal('git_push', 'git push ' . '<args>', ':vs')
-  nnoremap <Leader>gp :GitPushTo<Space>
 
   function! s:GitLocalBranchComplete(arglead, cmdline, cursorpos)
     let l:branches = systemlist('git branch -l --format="%(refname:short)"')
@@ -280,8 +266,41 @@ if executable('git')
         \ call <SID>OpenCommandTerminal('git_reset', 'git reset --hard ' . '<args>', ':vs')
   command! -nargs=1 -complete=customlist,s:GitAllBranchComplete GitResetSoft
         \ call <SID>OpenCommandTerminal('git_reset', 'git reset --soft ' . '<args>', ':vs')
-  nnoremap <Leader>gb :GitSwitch<Space>
-  nnoremap <Leader>gB :GitSwitchRemote<Space>
-  nnoremap <Leader>gr :GitResetHard<Space>
-  nnoremap <Leader>gR :GitResetSoft<Space>
+
+  function! s:SerchFileComplete(arglead, cmdline, cursorpos)
+    if filereadable(a:arglead)
+      " 入力した文字列が存在するファイルパスの場合はそのまま返す
+      return [a:arglead]
+    endif
+    let l:result = globpath('.', '**', 0, 1)
+          \->filter({k,v -> !isdirectory(v)})
+          \->mapnew({k,v -> v->substitute('^\.[\/\\]','','')})
+    return l:result->matchfuzzy(a:arglead)
+  endfunction
+  command! -nargs=1 -complete=customlist,s:SerchFileComplete GitRestore
+        \ call <SID>OpenCommandTerminal('git_restore', 'git restore ' . '<args>', ':vs')
+  command! -nargs=1 -complete=customlist,s:SerchFileComplete GitRestoreStaged
+        \ call <SID>OpenCommandTerminal('git_restore_staged', 'git restore --staged ' . '<args>', ':vs')
+
+  nnoremap <silent> <Leader>gs :call <SID>OpenCommandTerminal('git_status', 'git status', ':vs')<CR>
+  nnoremap <silent> <Leader>gt :call <SID>OpenCommandTerminal('git_tree', 'git log --graph --format="\%x09\%C(cyan)\%h\%Creset \%ar\%x09\%C(green bold)\%an\%Creset \%C(magenta bold)\%d\%Creset \%s', string(&lines*0.75) . 'sp')<CR>
+  nnoremap <silent> <Leader>gT :call <SID>OpenCommandTerminal('git_tree', 'git log --graph --all --format="\%x09\%C(cyan)\%h\%Creset \%ar\%x09\%C(green bold)\%an\%Creset \%C(magenta bold)\%d\%Creset \%s', string(&lines*0.75) . 'sp')<CR>
+  nnoremap <silent> <Leader>gl :call <SID>OpenCommandTerminal('git_log', 'git log', string(&lines*0.75) . 'sp')<CR>
+  nnoremap <silent> <Leader>gL :call <SID>OpenCommandTerminal('git_log', 'git log -p', string(&lines*0.75) . 'sp')<CR>
+  nnoremap <silent> <Leader>gd :call <SID>OpenCommandTerminal('git_diff', 'git diff', string(&lines*0.75) . 'sp')<CR>
+  nnoremap <silent> <Leader>gD :call <SID>OpenCommandTerminal('git_diff', 'git diff --cached', string(&lines*0.75) . 'sp')<CR>
+  nnoremap <silent> <Leader>ga :call <SID>OpenCommandTerminal('git_add', 'git add -p', string(&lines*0.75) . 'sp')<CR>
+  nnoremap <silent> <Leader>gA :!git add .<CR>
+  nnoremap <silent> <Leader>gc :call <SID>OpenCommandTerminal('git_commit', 'git commit -v', ':vs')<CR>
+  nnoremap <silent> <Leader>gC :call <SID>OpenCommandTerminal('git_commit_ammend', 'git commit -v --amend', ':vs')<CR>
+  nnoremap <silent> <Leader>gf :call <SID>OpenCommandTerminal('git_fetch', 'git fetch', ':vs')<CR>
+  nnoremap <silent> <Leader>gb :call <SID>OpenCommandTerminal('git_blame', 'git blame %', string(&lines*0.75) . 'sp')<CR>
+  nnoremap <silent> <Leader>gp :call <SID>OpenCommandTerminal('git_pull', 'git pull', ':vs')<CR>
+  nnoremap <Leader>GP :GitPushTo<Space>
+  nnoremap <Leader>Gb :GitSwitch<Space>
+  nnoremap <Leader>GS :GitSwitchRemote<Space>
+  nnoremap <Leader>Gr :GitResetHard<Space>
+  nnoremap <Leader>GR :GitResetSoft<Space>
+  nnoremap <Leader>gr :GitRestore<Space>
+  nnoremap <Leader>gR :GitRestoreStaged<Space>
 endif
