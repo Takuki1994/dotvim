@@ -17,6 +17,7 @@ Jetpack 'goolord/alpha-nvim'
 Jetpack 'MaximilianLloyd/ascii.nvim' " asciiの設定はstartify.vimに記載
 Jetpack 'bullets-vim/bullets.vim'
 Jetpack 'vim-jp/vimdoc-ja'
+Jetpack 'shortcuts/no-neck-pain.nvim'
 " treesitter依存
 Jetpack 'nvim-treesitter/nvim-treesitter' , { 'branch': 'main' }
 Jetpack 'nvim-treesitter/nvim-treesitter-context'
@@ -186,11 +187,11 @@ nnoremap <silent> <leader>fe :Files<CR>
 nnoremap <silent> <leader>fg :GFiles<CR>
 nnoremap <silent> <leader>f? :GFiles?<CR>
 nnoremap <silent> <leader>fb :Buffers<CR>
-nnoremap <silent> <leader>ft :call fzf#run({'sink': 'tabe', 'down': '25%'})<CR>
-nnoremap <silent> <leader>fv :call fzf#run({'sink': 'vs', 'down': '25%'})<CR>
-nnoremap <silent> <leader>fs :call fzf#run({'sink': 'sp', 'down': '25%'})<CR>
+nnoremap <silent> <leader>ft :call fzf#run({'sink': 'tabe', 'window': {'width': 0.9, 'height': 0.6}})<CR>
+nnoremap <silent> <leader>fv :call fzf#run({'sink': 'vs', 'window': {'width': 0.9, 'height': 0.6}})<CR>
+nnoremap <silent> <leader>fs :call fzf#run({'sink': 'sp', 'window': {'width': 0.9, 'height': 0.6}})<CR>
 nnoremap <silent> <leader>fr :call fzf#run({'source': 'ghq list -p',
-                                           \'sink': 'cd', 'down': '25%'})<CR>
+                                           \'sink': 'cd', 'window': {'width': 0.9, 'height': 0.6}})<CR>
 
 " statusline
 function! GetSkkStatusline() abort
@@ -212,3 +213,20 @@ set statusline=%{GetSkkStatusline()}%<%f\ %y%h%w%m%r%=\ %-14.(%l,%c%V%)\ %P
 " copilot.vim
 inoremap <silent> <leader><C-W> <Plug>(copilot-accept-word)
 inoremap <silent> <leader><C-L> <Plug>(copilot-accept-line)
+
+" no-neck-pain.nvim
+lua << EOF
+require('no-neck-pain').setup {
+  width = 120,
+  autocmds = {
+    enableOnVimEnter = "safe",
+    enableOnTabEnter = true,
+  },
+  integrations = {
+    alpha = {
+      enabled = true,
+      filetype = "alpha",
+    },
+  },
+}
+EOF
