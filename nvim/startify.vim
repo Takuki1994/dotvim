@@ -6,9 +6,17 @@ lua << EOF
     'bluearchive',
     'zenless'
   }
-  math.randomseed(os.time())
-  local logo_key = logo_key_list[math.random(#logo_key_list)]
-  if logo_key == 'bluearchive' then
+  -- cmdでnvim起動時のプロセスリストを取得して特定のプロセスが存在するか確認する関数
+  local result = vim.fn.system("tasklist")
+  local function is_process_running(process_name)
+    for line in result:gmatch("[^\r\n]+") do
+      if line:find(process_name) then
+        return true
+      end
+    end
+    return false
+  end
+  if is_process_running("BlueArchive.exe") then
     dashboard.section.header.val = {
       "                    Independent Federal Investigation Club",
       " ▄▄▄▄           ▄▄▄         ▄    ▄          ▄▄          ▄             ▄▄▄▄▄▄",
@@ -22,13 +30,13 @@ lua << EOF
       position = "center"
     }
     dashboard.section.footer.val = {
-      '私が先生のお仕事を手伝います！'
+      'スーパーアロナちゃんにおまかせください！'
     }
     dashboard.section.footer.opts = {
       hl = "Blue",
       position = "center"
     }
-  elseif logo_key == 'zenless' then
+  elseif is_process_running("ZenlessZoneZero.exe") then
     dashboard.section.header.val = {
       ' ▄▄    ▄▄            ▄▄▄▄▄               ▄▄▄▄▄    ',
       ' ██    ██            ██▀▀▀██             ██▀▀▀██  ',
@@ -43,7 +51,7 @@ lua << EOF
       position = "center"
     }
     dashboard.section.footer.val = {
-      'マスター、あなたの忠実な僕Fairyは準備万端です'
+      'マスター、あなたの忠実なAI、Fairyにお任せください'
     }
     dashboard.section.footer.opts = {
       hl = "Fg",
@@ -55,10 +63,10 @@ lua << EOF
   end
   dashboard.section.buttons.val = {
     dashboard.button( "e", "  > New file" , ":ene <BAR> startinsert <CR>"),
-    dashboard.button( "s", "  > Search fzf", "<Cmd>Files<CR>"),
-    dashboard.button( "r", "  > Search repositories",
+    dashboard.button( "f", "  > Search file", "<Cmd>Files<CR>"),
+    dashboard.button( "r", "  > Move repositories directory",
               "<Cmd>call fzf#run({'source': 'ghq list -p', 'sink': 'cd', 'window': {'width': 0.9, 'height': 0.6}})<CR>"),
-    dashboard.button( "m", "  > Create memo",
+    dashboard.button( "m", "  > Create scratch",
               "<Cmd>:ene|:setl bt=nofile bh=hide noswapfile|:file memo<CR>"),
     dashboard.button( "g", "󰊠  > Start GhostText", "<Cmd>GhostStart<CR>"),
     dashboard.button( "q", "󰅚  > Quit", "<Cmd>qa<CR>"),
