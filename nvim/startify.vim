@@ -1,11 +1,7 @@
 lua << EOF
   local alpha = require("alpha")
   local dashboard = require("alpha.themes.dashboard")
-  local logo_key_list = {
-    'neovim',
-    'bluearchive',
-    'zenless'
-  }
+
   -- cmdでnvim起動時のプロセスリストを取得して特定のプロセスが存在するか確認する関数
   local result = vim.fn.system("tasklist")
   local function is_process_running(process_name)
@@ -70,5 +66,18 @@ lua << EOF
               "<Cmd>:ene|:setl bt=nofile bh=hide noswapfile|:file memo<CR>"),
     dashboard.button( "g", "󰊠  > Start GhostText", "<Cmd>GhostStart<CR>"),
     dashboard.button( "q", "󰅚  > Quit", "<Cmd>qa<CR>"),
+  }
+  dashboard.config.layout = {
+    { type = "group", opts = {
+        position = "v_center"
+      },
+      val = {
+        dashboard.section.header,
+        {type = "padding", val = 5},
+        dashboard.section.buttons,
+        {type = "padding", val = 3},
+        dashboard.section.footer,
+      },
+    },
   }
 EOF
