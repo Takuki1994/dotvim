@@ -14,7 +14,6 @@ Jetpack 'junegunn/fzf'
 Jetpack 'junegunn/fzf.vim'
 Jetpack 'catgoose/nvim-colorizer.lua'
 Jetpack 'goolord/alpha-nvim'
-Jetpack 'MaximilianLloyd/ascii.nvim' " asciiの設定はstartify.vimに記載
 Jetpack 'bullets-vim/bullets.vim'
 Jetpack 'vim-jp/vimdoc-ja'
 Jetpack 'shortcuts/no-neck-pain.nvim'

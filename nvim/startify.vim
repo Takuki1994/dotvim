@@ -54,8 +54,22 @@ lua << EOF
       position = "center"
     }
   else
-    local logo = require("ascii").art.text.neovim.sharp
-    dashboard.section.header.val = logo
+    dashboard.section.header.val = {
+      "│ ╲ ││",
+      "││╲╲││",
+      "││ ╲ │",
+    }
+    dashboard.section.footer.val = {
+      "NVIM " .. tostring(vim.version()),
+    }
+    dashboard.section.header.opts = {
+      hl = {
+        {{"Special", 0, 4}, {"String", 4, -1 }},
+        {{"Special", 0, 4}, {"String", 4, -1 }},
+        {{"Special", 0, 4}, {"String", 4, -1 }},
+      },
+      position = "center"
+    }
   end
   dashboard.section.buttons.val = {
     dashboard.button( "e", "  > New file" , ":ene <BAR> startinsert <CR>"),
