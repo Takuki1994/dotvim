@@ -74,7 +74,7 @@ nnoremap <silent> <expr> <Leader>sv ':vs\|:ene\|' . scratch_cmd
       \. strftime('%Y%m%d%H%M%S') . '<CR>'
 nnoremap <silent> <expr> <Leader>ss ':sp\|:ene\|' . scratch_cmd
       \. strftime('%Y%m%d%H%M%S') . '<CR>'
-nnoremap <silent> <C-l> <C-w>w
+nnoremap <silent> <C-k> <C-w>w
 if executable('pwsh')
   nnoremap <silent> <expr> <Leader>te ':terminal pwsh<CR>\|:file pwsh_'
       \. strftime('%Y%m%d%H%M%S') . '<CR>'
