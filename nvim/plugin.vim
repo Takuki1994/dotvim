@@ -1,4 +1,5 @@
 " plugin install
+packadd cfilter
 packadd vim-jetpack
 call jetpack#begin()
 Jetpack 'tani/vim-jetpack', {'opt': 1} "bootstrap
