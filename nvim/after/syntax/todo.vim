@@ -87,7 +87,7 @@ let b:d2=str2nr(strcharpart(b:current_date, 7, 1))
 let b:thr=string(b:d2<9?b:d2+1:0)
 let b:threshold_regex=b:threshold_regex.'\|\d\{4\}-\d\{2\}-'.string(b:d1).'['.b:thr.'-9]'
 if b:d2>0
-  let b:due=string(b:d2-1)
+  let b:due=string(b:d2)
   let b:pass_due_regex=b:pass_due_regex.(len(b:pass_due_regex)>0?'\|':'')
   let b:pass_due_regex=b:pass_due_regex.'\d\{4\}-\d\{2\}-'.string(b:d1).'[0-'.b:due.']'
 endif
