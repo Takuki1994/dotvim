@@ -108,6 +108,8 @@ highlight  default  link  TodoPriorityA  Identifier
 highlight  default  link  TodoPriorityB  statement
 highlight  default  link  TodoPriorityC  type
 highlight  default  link  TodoPriorityD  Label
+highlight  default  link  TodoPriorityE  Constant
+highlight  default  link  TodoPriorityF  Title
 highlight  default  link  TodoDate       PreProc
 highlight  default  link  TodoProject    Special
 highlight  default  link  TodoContext    Special
