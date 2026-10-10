@@ -91,11 +91,10 @@ if b:d2<9
   let b:thr=string(b:d2<9?b:d2+1:0)
   let b:threshold_regex=b:threshold_regex.'\|20'.string(b:y3).string(b:y4).'-'.string(b:m1).string(b:m2).'-'.string(b:d1).'['.b:thr.'-9]'
 endif
-if b:d2>0
-  let b:due=string(b:d2)
-  let b:pass_due_regex=b:pass_due_regex.(len(b:pass_due_regex)>0?'\|':'')
-  let b:pass_due_regex=b:pass_due_regex.'20'.string(b:y3).string(b:y4).'-'.string(b:m1).string(b:m2).'-'.string(b:d1).'[0-'.b:due.']'
-endif
+" dueは今日の日付も期限超過に含める
+let b:due=string(b:d2)
+let b:pass_due_regex=b:pass_due_regex.(len(b:pass_due_regex)>0?'\|':'')
+let b:pass_due_regex=b:pass_due_regex.'20'.string(b:y3).string(b:y4).'-'.string(b:m1).string(b:m2).'-'.string(b:d1).'[0-'.b:due.']'
 let b:threshold_regex=b:threshold_regex.'\)\s*.*$'
 let b:pass_due_regex='^[^x].*\sdue:\('.b:pass_due_regex.'\)\s*.*$'
 execute("syntax match TodoThreshold '"
