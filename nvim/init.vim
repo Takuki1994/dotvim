@@ -207,8 +207,28 @@ if executable('copilot')
     " insertモードに入る
     startinsert
   endfunction
+  " `copilot review`という名前のterminalをvsplitで起動する。
+  " すでに同名のterminalが存在する場合はメッセージを表示する
+  function! s:OpenCopilotReviewTerminal()
+    let l:term_name = 'copilot_review'
+    let l:term_bufnr = bufexists(l:term_name) ? bufnr(l:term_name) : -1
+    if l:term_bufnr != -1
+      " ターミナルが存在する場合はメッセージを表示して処理を中断
+      echohl ErrorMsg
+      echomsg 'Copilot review terminal already exists.'
+      echohl None
+      return
+    endif
+    " 新規作成して表示
+    " レビューの指示は文字化け対策で英語、出力を日本語にする
+    execute 'vsplit | terminal cmd /c copilot --model auto -p "review only the staged files in japanese"'
+    execute 'file ' . l:term_name
+    " insertモードに入る
+    startinsert
+  endfunction
 
   nnoremap <silent> <Leader>cc :call <SID>OpenCopilotTerminal()<CR>
+  nnoremap <silent> <Leader>cr :call <SID>OpenCopilotReviewTerminal()<CR>
 endif
 
 if executable('git')
