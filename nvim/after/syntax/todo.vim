@@ -69,8 +69,10 @@ if b:m1>0
   let b:pass_due_regex=b:pass_due_regex.'20'.string(b:y3).string(b:y4).'-0[1-9]-\d\{2\}'
 endif
 let b:m2=str2nr(strcharpart(b:current_date, 5, 1))
-let b:thr=string(b:m2<9?b:m2+1:0)
-let b:threshold_regex=b:threshold_regex.'\|20'.string(b:y3).string(b:y4).'-'.string(b:m1).'['.b:thr.'-9]-\d\{2\}'
+if b:m2<9
+  let b:thr=string(b:m2<9?b:m2+1:0)
+  let b:threshold_regex=b:threshold_regex.'\|20'.string(b:y3).string(b:y4).'-'.string(b:m1).'['.b:thr.'-9]-\d\{2\}'
+endif
 if b:m2>0
   let b:due=string(b:m2-1)
   let b:pass_due_regex=b:pass_due_regex.(len(b:pass_due_regex)>0?'\|':'')
@@ -85,8 +87,10 @@ if b:d1>0
   let b:pass_due_regex=b:pass_due_regex.'20'.string(b:y3).string(b:y4).'-'.string(b:m1).string(b:m2).'-[0-'.b:due.']\d'
 endif
 let b:d2=str2nr(strcharpart(b:current_date, 7, 1))
-let b:thr=string(b:d2<9?b:d2+1:0)
-let b:threshold_regex=b:threshold_regex.'\|20'.string(b:y3).string(b:y4).'-'.string(b:m1).string(b:m2).'-'.string(b:d1).'['.b:thr.'-9]'
+if b:d2<9
+  let b:thr=string(b:d2<9?b:d2+1:0)
+  let b:threshold_regex=b:threshold_regex.'\|20'.string(b:y3).string(b:y4).'-'.string(b:m1).string(b:m2).'-'.string(b:d1).'['.b:thr.'-9]'
+endif
 if b:d2>0
   let b:due=string(b:d2)
   let b:pass_due_regex=b:pass_due_regex.(len(b:pass_due_regex)>0?'\|':'')
