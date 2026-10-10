@@ -229,9 +229,29 @@ if executable('copilot')
     " insertモードに入る
     startinsert
   endfunction
+  " 再レビュー用
+  function! s:OpenCopilotRereviewTerminal()
+    let l:term_name = 'copilot_rereview'
+    let l:term_bufnr = bufexists(l:term_name) ? bufnr(l:term_name) : -1
+    if l:term_bufnr != -1
+      " ターミナルが存在する場合はメッセージを表示して処理を中断
+      echohl ErrorMsg
+      echomsg 'Copilot rereview terminal already exists.'
+      echohl None
+      return
+    endif
+    " 新規作成して表示
+    " レビューの指示は文字化け対策で英語、出力を日本語にする
+    " 直前のレビューから繰り返し実行する想定で、--continueオプションを付与する
+    execute 'vsplit | terminal cmd /c copilot --continue --model auto -p "review only the staged files in japanese"'
+    execute 'file ' . l:term_name
+    " insertモードに入る
+    startinsert
+  endfunction
 
   nnoremap <silent> <Leader>cc :call <SID>OpenCopilotTerminal()<CR>
   nnoremap <silent> <Leader>cr :call <SID>OpenCopilotReviewTerminal()<CR>
+  nnoremap <silent> <Leader>cR :call <SID>OpenCopilotRereviewTerminal()<CR>
 endif
 
 if executable('git')
