@@ -2,7 +2,7 @@
 set shell=cmd
 
 " let g:nvim_home=<nvimフォルダへのパス>
-" let g:disable_auto_theme_change=0 
+" let g:disable_auto_theme_change=0
 source ~\.config\nvim\.env
 
 " spell settings
