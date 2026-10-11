@@ -163,10 +163,10 @@ function! s:FindFunc(cmdarg, complete)
     " 入力した文字列が存在するファイルパスの場合はそのまま返す
     return [a:cmdarg]
   endif
+  " rg がある場合はrgで検索する
   if executable('rg')
-    let l:result = systemlist('rg --files')
-        \->filter({k,v -> !isdirectory(v)})
-        \->mapnew({k,v -> v->substitute('^\.[\/\\]','','')})
+    let l:result = systemlist('rg --files --hidden --glob "!.git/*"')
+          \->mapnew({idx, val-> val->substitute('\r', '', 'g')})
   else
     let l:result = globpath('.', '**', 0, 1)
           \->filter({k,v -> !isdirectory(v)})
