@@ -79,8 +79,10 @@ if b:m2>0
   let b:pass_due_regex=b:pass_due_regex.'20'.string(b:y3).string(b:y4).'-'.string(b:m1).'[0-'.b:due.']-\d\{2\}'
 endif
 let b:d1=str2nr(strcharpart(b:current_date, 6, 1))
-let b:thr=string(b:d1<3?b:d1+1:0)
-let b:threshold_regex=b:threshold_regex.'\|20'.string(b:y3).string(b:y4).'-'.string(b:m1).string(b:m2).'-['.b:thr.'-3]\d'
+if b:d1<3
+  let b:thr=string(b:d1+1)
+  let b:threshold_regex=b:threshold_regex.'\|20'.string(b:y3).string(b:y4).'-'.string(b:m1).string(b:m2).'-['.b:thr.'-3]\d'
+endif
 if b:d1>0
   let b:due=string(b:d1-1)
   let b:pass_due_regex=b:pass_due_regex.(len(b:pass_due_regex)>0?'\|':'')
