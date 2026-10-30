@@ -52,10 +52,40 @@ augroup filetype_indent
   autocmd!
   autocmd FileType vim setlocal sw=2 sts=2 ts=2 et
 augroup END
+" todo.txt 回りの処理
+" @また+の次に続きスペースまでの文字列をバッファから抽出するcompletefunc
+function! TodoComplete(findstart, base)
+  if a:findstart
+      return col('.')
+  endif
+  " カーソルの1つ前の文字が@または+でない場合は空のリストを返す
+  let l:cur_line = getline('.')
+  let l:cur_col = col('.') - 1
+  if l:cur_col <= 0 || (l:cur_line[l:cur_col - 1] !=# '@' && l:cur_line[l:cur_col - 1] !=# '+')
+    return []
+  endif
+  " カーソルの1つ前の文字列が\s@の場合はバッファ内の@の後からスペースまたは行末までの文字列を抽出する
+  " カーソルの1つ前の文字列が\s+の場合はバッファ内の+の後からスペースまたは行末までの文字列を抽出する
+  if l:cur_line[l:cur_col - 1] ==# '@'
+    let l:pattern = '\W@\zs\S\+'
+  else
+    let l:pattern = '\W+\zs\S\+'
+  endif
+  let l:matches = []
+  for l:line in getline(1, '$')
+    let l:matchlist = matchlist(l:line, l:pattern)
+    if !empty(l:matchlist)
+      call add(l:matches, l:matchlist[0])
+    endif
+  endfor
+  " 重複を削除してリストを返す
+  return uniq(sort(l:matches))
+endfunction
+
 augroup todo
   autocmd!
   autocmd BufNewFile,BufRead [tT]odo.txt,[iI]nbox.txt,[dD]one.txt
-        \ set syntax=todo
+        \ setlocal filetype=todo completefunc=TodoComplete
 augroup END
 " laststatus=3はNeoVim限定の設定
 set laststatus=3

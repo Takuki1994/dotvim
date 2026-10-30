@@ -37,9 +37,10 @@ syntax  match  TodoPriorityX  '^([xX])\s.\+$'             contains=TodoKey,TodoD
 syntax  match  TodoPriorityY  '^([yY])\s.\+$'             contains=TodoKey,TodoDate,TodoProject,TodoContext
 syntax  match  TodoPriorityZ  '^([zZ])\s.\+$'             contains=TodoKey,TodoDate,TodoProject,TodoContext
 syntax  match  TodoDate       '\d\{2,4\}-\d\{2\}-\d\{2\}' contains=NONE
-syntax  match  TodoKey        '\S*\S:\S\S*'                   contains=TodoDate
+syntax  match  TodoKey        '\S*\S:\S\S*'                   contains=TodoDate,@NoSpell
 syntax  match  TodoProject    '\(^\|\W\)+[^[:blank:]]\+'  contains=NONE
 syntax  match  TodoContext    '\(^\|\W\)@[^[:blank:]]\+'  contains=NONE
+syntax  match  TodoProjectTask '^[^x].*\sest\:\d\+\($\|\s.*$\)' contains=TodoKey,TodoDate,TodoProject,TodoContext
 
 let b:current_date = strftime("%Y%m%d")
 let b:threshold_regex = '^[^x].*\st:\('
@@ -101,22 +102,23 @@ let b:threshold_regex=b:threshold_regex.'\)\s*.*$'
 let b:pass_due_regex='^[^x].*\sdue:\('.b:pass_due_regex.'\)\s*.*$'
 execute("syntax match TodoThreshold '"
       \.b:threshold_regex
-      \."' contains=TodoKey,TodoDate,TodoProject,TodoContext")
+      \."' contains=@NoSpell")
 execute("syntax match TodoPassDue '"
       \.b:pass_due_regex
       \."' contains=TodoKey,TodoDate,TodoProject,TodoContext")
 
 " Other priority colours might be defined by the user
-highlight  default  link  TodoKey        Special
+highlight  default  link  TodoKey        Tag
 highlight  default  link  TodoDone       Comment
 highlight  default  link  TodoPriorityA  Identifier
 highlight  default  link  TodoPriorityB  statement
 highlight  default  link  TodoPriorityC  type
 highlight  default  link  TodoPriorityD  Label
 highlight  default  link  TodoDate       PreProc
-highlight  default  link  TodoProject    Special
-highlight  default  link  TodoContext    Special
+highlight  default  link  TodoProject    Character
+highlight  default  link  TodoContext    Constant
 highlight  default  link  TodoThreshold  EndOfBuffer
 highlight  default  link  TodoPassDue    ErrorMsg
+highlight  default  link  TodoProjectTask Title
 
 let b:current_syntax = "todo"
