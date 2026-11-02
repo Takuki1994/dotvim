@@ -82,10 +82,16 @@ function! TodoComplete(findstart, base)
   return uniq(sort(l:matches))
 endfunction
 
+function! s:OpenBrowser() abort
+  let c = nr2char(getchar())
+  return 'vi' . c . 'gx<ESC>T' . c
+endfunction
+
 augroup todo
   autocmd!
   autocmd BufNewFile,BufRead [tT]odo.txt,[iI]nbox.txt,[dD]one.txt
         \ setlocal filetype=todo completefunc=TodoComplete
+  autocmd FileType todo nnoremap <Leader><Leader>x 0ca(x <C-R>=strftime('%Y-%m-%d')<CR><ESC>
 augroup END
 " laststatus=3はNeoVim限定の設定
 set laststatus=3
