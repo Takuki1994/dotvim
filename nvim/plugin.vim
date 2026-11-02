@@ -213,6 +213,16 @@ set statusline=%{GetSkkStatusline()}%<%f\ %y%h%w%m%r%=\ %-14.(%l,%c%V%)\ %P
 " copilot.vim
 inoremap <silent> <leader><C-W> <Plug>(copilot-accept-word)
 inoremap <silent> <leader><C-L> <Plug>(copilot-accept-line)
+let g:copilot_filetypes = {
+      \ 'gitcommit': v:false,
+      \ 'markdown': v:false,
+      \ 'text': v:false,
+      \ 'python': v:true,
+      \ 'cpp': v:true,
+      \ 'c': v:true,
+      \ 'vim': v:true,
+      \ 'todo': v:false,
+      \ }
 
 " no-neck-pain.nvim
 lua << EOF
