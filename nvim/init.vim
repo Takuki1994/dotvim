@@ -82,15 +82,77 @@ function! TodoComplete(findstart, base)
   return uniq(sort(l:matches))
 endfunction
 
-function! s:OpenBrowser() abort
-  let c = nr2char(getchar())
-  return 'vi' . c . 'gx<ESC>T' . c
+" todo.txtのプロジェクトタスクとサブタスクをfoldする関数
+function! TodoFold() abort
+  if !exists('s:project_name')
+    let s:project_name = ''
+  endif
+  let l:line = getline(v:lnum)
+  if l:line =~ '\s+\S\+' && l:line =~ '\sest:\d\+\(\s\|$\)'
+    let l:project_name = matchstr(l:line, '\s+\zs\S\+')
+    " 前回のプロジェクト名と一致する場合は折り畳みを継続する
+    if l:project_name ==# s:project_name
+      return '1'
+    " 前回のプロジェクト名と一致しない場合は新しく折り畳みを開始する
+    else
+      let s:project_name = l:project_name
+      return '>1'
+    endif
+  elseif l:line =~ '\s+\S\+'
+    " サブタスクの場合は前回のプロジェクト名と一致する場合のみ折り畳みを継続する
+    let l:project_name = matchstr(l:line, '\s+\zs\S\+')
+    " 前回のプロジェクト名と一致する場合は折り畳みを継続する
+    if l:project_name ==# s:project_name
+      return '1'
+    " 前回のプロジェクト名と一致しない場合は折り畳まない
+    else
+      let s:project_name = ''
+      return '0'
+    endif
+  else
+    let s:project_name = ''
+    return '0'
+  endif
+endfunction
+
+" foldtext用関数
+function! TodoFoldText() abort
+  " 先頭行からプロジェクト名を取得する
+  let l:line = getline(v:foldstart)
+  let l:project_name = matchstr(l:line, '\s+\zs\S\+')
+  " プロジェクトタスクが完了済みの場合はサブタスクのカウントは行わない
+  if l:line =~ '^x\s'
+    return printf("(完了) Project: %s", l:project_name)
+  endif
+  " サブタスクの総数、完了済みのサブタスクの数をカウントする
+  " \s@reference\(\s\|$\)を含むサブタスクは資料として別にカウントする
+  let l:subtask_total = 0
+  let l:subtask_done = 0
+  let l:reference_count = 0
+  for l:num in range(v:foldstart + 1, v:foldend)
+    let l:subtask_line = getline(l:num)
+    if l:subtask_line =~ '\s@reference\(\s\|$\)'
+      let l:reference_count += 1
+    else
+      let l:subtask_total += 1
+      if l:subtask_line =~ '^x\s'
+        let l:subtask_done += 1
+      endif
+    endif
+  endfor
+  " 折り畳みの表示形式を返す
+  return printf("(%d/%d 完了|Ref: %d) Project: %s",
+        \ l:subtask_done, l:subtask_total, l:reference_count, l:project_name)
 endfunction
 
 augroup todo
   autocmd!
   autocmd BufNewFile,BufRead [tT]odo.txt,[iI]nbox.txt,[dD]one.txt
-        \ setlocal filetype=todo completefunc=TodoComplete
+        \ setlocal filetype=todo 
+  autocmd FileType todo set completefunc=TodoComplete
+                          \ foldmethod=expr foldexpr=TodoFold()
+                          \ foldtext=TodoFoldText()
+                          \ foldminlines=0
   autocmd FileType todo nnoremap <Leader><Leader>x 0ca(x <C-R>=strftime('%Y-%m-%d')<CR><ESC>
 augroup END
 " laststatus=3はNeoVim限定の設定
