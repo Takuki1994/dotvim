@@ -170,10 +170,11 @@ augroup todo
   autocmd!
   autocmd BufNewFile,BufRead [tT]odo.txt,[iI]nbox.txt,[dD]one.txt
         \ setlocal filetype=todo 
-  autocmd FileType todo set completefunc=TodoComplete
-                          \ foldmethod=expr foldexpr=TodoFold()
-                          \ foldtext=TodoFoldText()
-                          \ foldminlines=0
+  autocmd FileType todo setlocal completefunc=TodoComplete
+                                \ foldmethod=expr foldexpr=TodoFold()
+                                \ foldtext=TodoFoldText()
+                                \ foldminlines=0
+                                \ nofixendofline
   autocmd FileType todo nnoremap <silent> <Leader><Leader>x :call TaskDone()<CR>
 augroup END
 " laststatus=3はNeoVim限定の設定
