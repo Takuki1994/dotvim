@@ -124,6 +124,11 @@ function! TodoFoldText() abort
   if l:line =~ '^x\s'
     return printf("(完了) Project: %s", l:project_name)
   endif
+  let l:due_date = matchstr(l:line, '\sdue:\zs\d\{4\}-\d\{2\}-\d\{2\}')
+  if l:due_date == ''
+    let l:due_date = '未定'
+  endif
+  let l:est_num = matchstr(l:line, '\sest:\zs\d\+')
   " サブタスクの総数、完了済みのサブタスクの数をカウントする
   " \s@reference\(\s\|$\)を含むサブタスクは資料として別にカウントする
   let l:subtask_total = 0
@@ -141,8 +146,24 @@ function! TodoFoldText() abort
     endif
   endfor
   " 折り畳みの表示形式を返す
-  return printf("(%d/%d 完了|Ref: %d) Project: %s",
-        \ l:subtask_done, l:subtask_total, l:reference_count, l:project_name)
+  return printf("(%d/%d 完了|Ref: %d) Project: %s EST:%s 期限:%s",
+        \ l:subtask_done, l:subtask_total, l:reference_count,
+        \ l:project_name, l:est_num, l:due_date)
+endfunction
+
+function! TaskDone() abort
+  let l:line = getline('.')
+  if l:line =~ '^x\s'
+    " 既に完了済みの場合はなにもしない
+    return
+  endif
+  " 行頭に優先度がある場合は削除する
+  if l:line =~ '^(\a)\s'
+    normal! 0da(x
+  endif
+  " 行頭にxと完了日を挿入する
+  let l:done_date = strftime('%Y-%m-%d')
+  execute 'normal! 0i' . 'x ' . l:done_date . ' '
 endfunction
 
 augroup todo
@@ -153,7 +174,7 @@ augroup todo
                           \ foldmethod=expr foldexpr=TodoFold()
                           \ foldtext=TodoFoldText()
                           \ foldminlines=0
-  autocmd FileType todo nnoremap <Leader><Leader>x 0ca(x <C-R>=strftime('%Y-%m-%d')<CR><ESC>
+  autocmd FileType todo nnoremap <silent> <Leader><Leader>x :call TaskDone()<CR>
 augroup END
 " laststatus=3はNeoVim限定の設定
 set laststatus=3
