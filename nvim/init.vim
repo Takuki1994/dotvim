@@ -120,15 +120,15 @@ function! TodoFoldText() abort
   " 先頭行からプロジェクト名を取得する
   let l:line = getline(v:foldstart)
   let l:project_name = matchstr(l:line, '\s+\zs\S\+')
+  let l:est_num = str2nr(matchstr(l:line, '\sest:\zs\d\+'))
   " プロジェクトタスクが完了済みの場合はサブタスクのカウントは行わない
   if l:line =~ '^x\s'
-    return printf("(完了) Project: %s", l:project_name)
+    return printf("( 完了) %2d  %s", l:est_num, l:project_name)
   endif
   let l:due_date = matchstr(l:line, '\sdue:\zs\d\{4\}-\d\{2\}-\d\{2\}')
   if l:due_date == ''
-    let l:due_date = '未定'
+    let l:due_date = '···未定···'
   endif
-  let l:est_num = matchstr(l:line, '\sest:\zs\d\+')
   " サブタスクの総数、完了済みのサブタスクの数をカウントする
   " \s@reference\(\s\|$\)を含むサブタスクは資料として別にカウントする
   let l:subtask_total = 0
@@ -146,9 +146,9 @@ function! TodoFoldText() abort
     endif
   endfor
   " 折り畳みの表示形式を返す
-  return printf("(%d/%d 完了|Ref: %d) Project: %s EST:%s 期限:%s",
+  return printf("(󰄸 %d/%d| %2d) %2d 󱛡 %s  %s",
         \ l:subtask_done, l:subtask_total, l:reference_count,
-        \ l:project_name, l:est_num, l:due_date)
+        \ l:est_num, l:due_date, l:project_name)
 endfunction
 
 function! TaskDone() abort
