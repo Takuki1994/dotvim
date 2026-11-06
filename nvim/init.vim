@@ -115,6 +115,17 @@ function! TodoFold() abort
   endif
 endfunction
 
+function! Date2Time(date) abort
+  if a:date == ''
+    return 0
+  end
+  let l:year = matchstr(a:date, '^\d\{4\}')
+  let l:month = matchstr(a:date, '^\d\{4\}-\zs\d\{2\}')
+  let l:day = matchstr(a:date, '\d\{2\}$')
+  return luaeval('os.time({year=' . l:year . ', month=' . l:month
+        \ . ', day=' . l:day . ', hour=0, min=0, sec=0})')
+endfunction
+
 " foldtext用関数
 function! TodoFoldText() abort
   " 先頭行からプロジェクト名を取得する
@@ -123,12 +134,14 @@ function! TodoFoldText() abort
   let l:est_num = str2nr(matchstr(l:line, '\sest:\zs\d\+'))
   " プロジェクトタスクが完了済みの場合はサブタスクのカウントは行わない
   if l:line =~ '^x\s'
-    return printf("( 完了) %2d  %s", l:est_num, l:project_name)
+    return printf(" 完了 󰐱 %2d  %s", l:est_num, l:project_name)
   endif
   let l:due_date = matchstr(l:line, '\sdue:\zs\d\{4\}-\d\{2\}-\d\{2\}')
   if l:due_date == ''
     let l:due_date = '···未定···'
   endif
+  let l:updated_date = matchstr(l:line, '^\(\|(\a)\s\|^x\s\)\zs\d\{4\}-\d\{2\}-\d\{2\}')
+  let l:near_due_date = ''
   " サブタスクの総数、完了済みのサブタスクの数をカウントする
   " \s@reference\(\s\|$\)を含むサブタスクは資料として別にカウントする
   let l:subtask_total = 0
@@ -144,11 +157,46 @@ function! TodoFoldText() abort
         let l:subtask_done += 1
       endif
     endif
+    let l:date = matchstr(l:line, '^\(\|(\a)\s\|^x\s\)\zs\d\{4\}-\d\{2\}-\d\{2\}')
+    let l:due_date = matchstr(l:line, '\sdue:\zs\d\{4\}-\d\{2\}-\d\{2\}')
+    if Date2Time(l:date) > Date2Time(l:updated_date)
+        let l:updated_date = l:date
+    endif
+    if Date2Time(l:near_due_date) == 0
+                \ || Date2Time(l:due_date) > 0 && Date2Time(l:due_date) < Date2Time(l:near_due_date)
+        let l:near_due_date = l:due_date
+    endif
   endfor
+  " 現在時刻と比較して日付を計算する
+  let l:now_time = localtime()
+  let l:near_due_days = (Date2Time(l:near_due_date) - l:now_time) / 86400
+  let l:updated_days = (l:now_time - Date2Time(l:updated_date)) / 86400
+  let l:near_due_text = ''
+  let l:header_icon = '󰄷 '
+  if l:updated_days >= 14
+      " 更新日が14日以上経過している場合はアイコンを変更する
+      let l:header_icon = '󰒲 '
+  elseif l:near_due_days < 1 && Date2Time(l:near_due_date) != 0
+      " 期限当日
+      let l:header_icon = ' '
+      let l:near_due_text = '  ' . l:near_due_date
+  elseif l:near_due_days < 7 && Date2Time(l:near_due_date) != 0
+      " 期限が1週間内
+      let l:header_icon = ' '
+      let l:near_due_text = '  ' . l:near_due_date
+  elseif subtask_total == 0
+      let l:header_icon = '󱋭 '
+  elseif subtask_total == subtask_done
+      let l:header_icon = '󰄹 '
+  else
+      let l:header_icon = '󰄷 '
+  endif
   " 折り畳みの表示形式を返す
-  return printf("(󰄸 %d/%d| %2d) %2d 󱛡 %s  %s",
+  return printf("%s%d/%d  %2d 󰐱 %2d 󰚰 %s  %s  %s%s",
+        \ l:header_icon,
         \ l:subtask_done, l:subtask_total, l:reference_count,
-        \ l:est_num, l:due_date, l:project_name)
+        \ l:est_num, l:updated_date, l:due_date, l:project_name,
+        \ l:near_due_text)
 endfunction
 
 function! TaskDone() abort
