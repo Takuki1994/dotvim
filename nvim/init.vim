@@ -82,7 +82,6 @@ function! TodoComplete(findstart, base)
     " cmigemoが使える場合はcmigemoでフィルターをかける
     let l:regex = system('cmigemo -d "' . $MIGEMO_DICT . '" -w "' . a:base . '" -v -n')
     return filter(uniq(sort(l:matches)), {_, val -> val =~# l:regex })
-    "return uniq(sort(l:matches))
   else
     " 重複を削除してリストを返す
     return uniq(sort(l:matches))
