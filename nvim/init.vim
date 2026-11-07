@@ -143,11 +143,11 @@ function! TodoFoldText() abort
     return printf(" 完了 󰐱 %2d  %s", l:est_num, l:project_name)
   endif
   let l:due_date = matchstr(l:line, '\sdue:\zs\d\{4\}-\d\{2\}-\d\{2\}')
+  let l:near_due_date = l:due_date
   if l:due_date == ''
     let l:due_date = '···未定···'
   endif
   let l:updated_date = matchstr(l:line, '^\(\|(\a)\s\|^x\s\)\zs\d\{4\}-\d\{2\}-\d\{2\}')
-  let l:near_due_date = ''
   " サブタスクの総数、完了済みのサブタスクの数をカウントする
   " \s@reference\(\s\|$\)を含むサブタスクは資料として別にカウントする
   let l:subtask_total = 0
@@ -163,13 +163,13 @@ function! TodoFoldText() abort
         let l:subtask_done += 1
       endif
     endif
-    let l:date = matchstr(l:line, '^\(\|(\a)\s\|^x\s\)\zs\d\{4\}-\d\{2\}-\d\{2\}')
-    let l:due_date = matchstr(l:line, '\sdue:\zs\d\{4\}-\d\{2\}-\d\{2\}')
+    let l:date = matchstr(l:subtask_line, '^\(\|(\a)\s\|^x\s\)\zs\d\{4\}-\d\{2\}-\d\{2\}')
+    let l:due_date = matchstr(l:subtask_line, '\sdue:\zs\d\{4\}-\d\{2\}-\d\{2\}')
     if Date2Time(l:date) > Date2Time(l:updated_date)
         let l:updated_date = l:date
     endif
     if Date2Time(l:near_due_date) == 0
-                \ || Date2Time(l:due_date) > 0 && Date2Time(l:due_date) < Date2Time(l:near_due_date)
+                \ || Date2Time(l:due_date) != 0 && Date2Time(l:due_date) < Date2Time(l:near_due_date)
         let l:near_due_date = l:due_date
     endif
   endfor
@@ -182,7 +182,7 @@ function! TodoFoldText() abort
   if l:updated_days >= 14
       " 更新日が14日以上経過している場合はアイコンを変更する
       let l:header_icon = '󰒲 '
-  elseif l:near_due_days < 1 && Date2Time(l:near_due_date) != 0
+  elseif (Date2Time(l:near_due_date) - l:now_time) < 0 && Date2Time(l:near_due_date) != 0
       " 期限当日
       let l:header_icon = ' '
       let l:near_due_text = '  ' . l:near_due_date
