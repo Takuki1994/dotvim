@@ -56,7 +56,7 @@ augroup END
 " @また+の次に続きスペースまでの文字列をバッファから抽出するcompletefunc
 function! TodoComplete(findstart, base)
   if a:findstart
-      return col('.')
+      return matchstrpos(strpart(getline('.'),0,col('.')), '\s[+@]\zs\S*$')[1]
   endif
   " カーソルの1つ前の文字が@または+でない場合は空のリストを返す
   let l:cur_line = getline('.')
@@ -78,8 +78,15 @@ function! TodoComplete(findstart, base)
       call add(l:matches, l:matchlist[0])
     endif
   endfor
-  " 重複を削除してリストを返す
-  return uniq(sort(l:matches))
+  if a:base !=# '' && executable('cmigemo') && exists('$MIGEMO_DICT')
+    " cmigemoが使える場合はcmigemoでフィルターをかける
+    let l:regex = system('cmigemo -d "' . $MIGEMO_DICT . '" -w "' . a:base . '" -v -n')
+    return filter(uniq(sort(l:matches)), {_, val -> val =~# l:regex })
+    "return uniq(sort(l:matches))
+  else
+    " 重複を削除してリストを返す
+    return uniq(sort(l:matches))
+  endif
 endfunction
 
 " todo.txtのプロジェクトタスクとサブタスクをfoldする関数
