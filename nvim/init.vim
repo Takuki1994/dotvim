@@ -142,10 +142,10 @@ function! TodoFoldText() abort
   if l:line =~ '^x\s'
     return printf(" 完了 󰐱 %2d  %s", l:est_num, l:project_name)
   endif
-  let l:due_date = matchstr(l:line, '\sdue:\zs\d\{4\}-\d\{2\}-\d\{2\}')
-  let l:near_due_date = l:due_date
-  if l:due_date == ''
-    let l:due_date = '···未定···'
+  let l:project_due_date = matchstr(l:line, '\sdue:\zs\d\{4\}-\d\{2\}-\d\{2\}')
+  let l:near_due_date = l:project_due_date
+  if l:project_due_date ==# ''
+    let l:project_due_date = '···未定···'
   endif
   let l:updated_date = matchstr(l:line, '^\(\|(\a)\s\|^x\s\)\zs\d\{4\}-\d\{2\}-\d\{2\}')
   " サブタスクの総数、完了済みのサブタスクの数をカウントする
@@ -153,26 +153,28 @@ function! TodoFoldText() abort
   let l:subtask_total = 0
   let l:subtask_done = 0
   let l:reference_count = 0
-  for l:num in range(v:foldstart + 1, v:foldend)
-    let l:subtask_line = getline(l:num)
-    if l:subtask_line =~ '\s@reference\(\s\|$\)'
-      let l:reference_count += 1
-    else
-      let l:subtask_total += 1
-      if l:subtask_line =~ '^x\s'
-        let l:subtask_done += 1
+  if v:foldstart != v:foldend
+    for l:num in range(v:foldstart + 1, v:foldend)
+      let l:subtask_line = getline(l:num)
+      if l:subtask_line =~ '\s@reference\(\s\|$\)'
+        let l:reference_count += 1
+      else
+        let l:subtask_total += 1
+        if l:subtask_line =~ '^x\s'
+          let l:subtask_done += 1
+        endif
       endif
-    endif
-    let l:date = matchstr(l:subtask_line, '^\(\|(\a)\s\|^x\s\)\zs\d\{4\}-\d\{2\}-\d\{2\}')
-    let l:due_date = matchstr(l:subtask_line, '\sdue:\zs\d\{4\}-\d\{2\}-\d\{2\}')
-    if Date2Time(l:date) > Date2Time(l:updated_date)
-        let l:updated_date = l:date
-    endif
-    if Date2Time(l:near_due_date) == 0
-                \ || Date2Time(l:due_date) != 0 && Date2Time(l:due_date) < Date2Time(l:near_due_date)
-        let l:near_due_date = l:due_date
-    endif
-  endfor
+      let l:date = matchstr(l:subtask_line, '^\(\|(\a)\s\|^x\s\)\zs\d\{4\}-\d\{2\}-\d\{2\}')
+      let l:due_date = matchstr(l:subtask_line, '\sdue:\zs\d\{4\}-\d\{2\}-\d\{2\}')
+      if Date2Time(l:date) > Date2Time(l:updated_date)
+          let l:updated_date = l:date
+      endif
+      if Date2Time(l:near_due_date) == 0
+                  \ || Date2Time(l:due_date) != 0 && Date2Time(l:due_date) < Date2Time(l:near_due_date)
+          let l:near_due_date = l:due_date
+      endif
+    endfor
+  endif
   " 現在時刻と比較して日付を計算する
   let l:now_time = localtime()
   let l:near_due_days = (Date2Time(l:near_due_date) - l:now_time) / 86400
@@ -201,7 +203,7 @@ function! TodoFoldText() abort
   return printf("%s%d/%d  %2d 󰐱 %2d 󰚰 %s  %s  %s%s",
         \ l:header_icon,
         \ l:subtask_done, l:subtask_total, l:reference_count,
-        \ l:est_num, l:updated_date, l:due_date, l:project_name,
+        \ l:est_num, l:updated_date, l:project_due_date, l:project_name,
         \ l:near_due_text)
 endfunction
 
