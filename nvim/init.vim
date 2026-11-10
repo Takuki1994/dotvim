@@ -165,7 +165,7 @@ function! TodoFoldText() abort
         endif
       endif
       let l:date = matchstr(l:subtask_line, '^\(\|(\a)\s\|^x\s\)\zs\d\{4\}-\d\{2\}-\d\{2\}')
-      let l:due_date = matchstr(l:subtask_line, '\sdue:\zs\d\{4\}-\d\{2\}-\d\{2\}')
+      let l:due_date = matchstr(l:subtask_line, '^[^x].*\sdue:\zs\d\{4\}-\d\{2\}-\d\{2\}')
       if Date2Time(l:date) > Date2Time(l:updated_date)
           let l:updated_date = l:date
       endif
