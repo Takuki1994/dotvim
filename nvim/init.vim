@@ -53,23 +53,26 @@ augroup filetype_indent
   autocmd FileType vim setlocal sw=2 sts=2 ts=2 et
 augroup END
 " todo.txt 回りの処理
-" @また+の次に続きスペースまでの文字列をバッファから抽出するcompletefunc
+" catタグ,@また+の次に続きスペースまでの文字列をバッファから抽出するcompletefunc
 function! TodoComplete(findstart, base)
   if a:findstart
-      return matchstrpos(strpart(getline('.'),0,col('.')), '\s[+@]\zs\S*$')[1]
+    return matchstrpos(strpart(getline('.'),0,col('.')), '\s\(cat:\|[+@]\)\zs\S*$')[1]
   endif
   " カーソルの1つ前の文字が@または+でない場合は空のリストを返す
   let l:cur_line = getline('.')
   let l:cur_col = col('.') - 1
-  if l:cur_col <= 0 || (l:cur_line[l:cur_col - 1] !=# '@' && l:cur_line[l:cur_col - 1] !=# '+')
+  if l:cur_col <= 0 || (l:cur_line[l:cur_col - 1] !=# '@' && l:cur_line[l:cur_col - 1] !=# '+'
+        \ && l:cur_line[l:cur_col - 1] !=# ':')
     return []
   endif
   " カーソルの1つ前の文字列が\s@の場合はバッファ内の@の後からスペースまたは行末までの文字列を抽出する
   " カーソルの1つ前の文字列が\s+の場合はバッファ内の+の後からスペースまたは行末までの文字列を抽出する
   if l:cur_line[l:cur_col - 1] ==# '@'
     let l:pattern = '\W@\zs\S\+'
-  else
+  elseif l:cur_line[l:cur_col - 1] ==# '+'
     let l:pattern = '\W+\zs\S\+'
+  else
+    let l:pattern = '\Wcat:\zs\S\+'
   endif
   let l:matches = []
   for l:line in getline(1, '$')
@@ -232,6 +235,12 @@ augroup todo
                                 \ foldminlines=0
                                 \ nofixendofline
   autocmd FileType todo nnoremap <silent> <Leader><Leader>x :call TaskDone()<CR>
+  " todo2icsは自作コマンド
+  if executable('todo2ics')
+    autocmd FileType todo nnoremap <silent> <Leader><Leader>caL :%!todo2ics %:p 2>nul<CR>
+    autocmd FileType todo nnoremap <silent> <Leader><Leader>cal :!todo2ics --dry %:p<CR>
+    autocmd FileType todo nnoremap <silent> <Leader><Leader>gx  :!explorer %:p:h\ics<CR>
+  endif
 augroup END
 " laststatus=3はNeoVim限定の設定
 set laststatus=3
