@@ -179,12 +179,15 @@ augroup todo
                                 \ foldmethod=expr foldexpr=TodoFold()
                                 \ foldtext=TodoFoldText()
                                 \ foldminlines=0
-                                \ nofixendofline
   autocmd FileType todo nnoremap <silent> <Leader><Leader>x :call TaskDone()<CR>
   " todo2icsは自作コマンド
-  if executable('todo2ics')
-    autocmd FileType todo nnoremap <silent> <Leader><Leader>caL :%!todo2ics %:p 2>nul<CR>
-    autocmd FileType todo nnoremap <silent> <Leader><Leader>cal :!todo2ics --dry %:p<CR>
-    autocmd FileType todo nnoremap <silent> <Leader><Leader>gx  :!explorer %:p:h\ics<CR>
+  if executable('perl') 
+    if executable('todo2ics')
+      autocmd FileType todo nnoremap <silent> <Leader><Leader>caL :%!todo2ics %:p 2>nul<CR>
+      autocmd FileType todo nnoremap <silent> <Leader><Leader>cal :!todo2ics --dry %:p<CR>
+      autocmd FileType todo nnoremap <silent> <Leader><Leader>gx  :!explorer %:p:h\ics<CR>
+    endif
+    autocmd FileType todo nnoremap <silent> <Leader><Leader>dd  :%!perl -ne "print unless /^x\s.*$/"<CR>
+    autocmd FileType todo nnoremap <silent> <Leader><Leader>dn  :!perl -ne "print $_ if /^x\s.*$/" "%:p" >> "%:p:h/done.txt"<CR>
   endif
 augroup END
