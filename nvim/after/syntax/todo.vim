@@ -102,7 +102,7 @@ let b:threshold_regex=b:threshold_regex.'\)\s*.*$'
 let b:pass_due_regex='^[^x].*\sdue:\('.b:pass_due_regex.'\)\s*.*$'
 execute("syntax match TodoThreshold '"
       \.b:threshold_regex
-      \."' contains=@NoSpell")
+      \."' contains=TodoKey,TodoDate,TodoContext,@NoSpell")
 execute("syntax match TodoPassDue '"
       \.b:pass_due_regex
       \."' contains=TodoKey,TodoDate,TodoProject,TodoContext")
