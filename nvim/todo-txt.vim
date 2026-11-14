@@ -179,6 +179,7 @@ augroup todo
                                 \ foldmethod=expr foldexpr=TodoFold()
                                 \ foldtext=TodoFoldText()
                                 \ foldminlines=0
+                                \ fileformat=dos
   autocmd FileType todo nnoremap <silent> <Leader><Leader>x :call TaskDone()<CR>
   " todo2icsは自作コマンド
   if executable('perl') 
