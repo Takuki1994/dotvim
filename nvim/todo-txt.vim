@@ -189,6 +189,7 @@ augroup todo
       autocmd FileType todo nnoremap <silent> <Leader><Leader>gx  :!explorer %:p:h\ics<CR>
     endif
     autocmd FileType todo nnoremap <silent> <Leader><Leader>dd  :%!perl -ne "print unless /^x\s.*$/"<CR>
-    autocmd FileType todo nnoremap <silent> <Leader><Leader>dn  :!perl -ne "print $_ if /^x\s.*$/" "%:p" >> "%:p:h/done.txt"<CR>
+    autocmd FileType todo nnoremap <silent> <Leader><Leader>dn  :!perl -ne "print $_ if /^x\s.*$/" "%:p"<CR>
+    autocmd FileType todo nnoremap <silent> <Leader><Leader>dN  :!perl -ne "print $_ if /^x\s.*$/" "%:p" >> "%:p:h/done.txt"<CR>
   endif
 augroup END
