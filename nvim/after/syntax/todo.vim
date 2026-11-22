@@ -40,7 +40,7 @@ syntax  match  TodoDate       '\d\{2,4\}-\d\{2\}-\d\{2\}' contains=NONE
 syntax  match  TodoKey        '\S*\S:\S\S*'                   contains=TodoDate,@NoSpell
 syntax  match  TodoProject    '\(^\|\W\)+[^[:blank:]]\+'  contains=NONE
 syntax  match  TodoContext    '\(^\|\W\)@[^[:blank:]]\+'  contains=NONE
-syntax  match  TodoProjectTask '^[^x].*\sest\:\d\+\($\|\s.*$\)' contains=TodoKey,TodoDate,TodoProject,TodoContext
+syntax  match  TodoProjectTask '^[^x].*\s@project\($\|\s.*$\)' contains=TodoKey,TodoDate,TodoProject,TodoContext
 
 let b:current_date = strftime("%Y%m%d")
 let b:threshold_regex = '^[^x].*\st:\('

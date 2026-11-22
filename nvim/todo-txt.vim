@@ -43,7 +43,7 @@ function! TodoFold() abort
     let s:project_name = ''
   endif
   let l:line = getline(v:lnum)
-  if l:line =~ '\s+\S\+' && l:line =~ '\sest:\d\+\(\s\|$\)'
+  if l:line =~ '\s+\S\+' && l:line =~ '\s@project\(\s\|$\)'
     let l:project_name = matchstr(l:line, '\s+\zs\S\+')
     " 前回のプロジェクト名と一致する場合は折り畳みを継続する
     if l:project_name ==# s:project_name
@@ -179,7 +179,8 @@ augroup todo
                                 \ foldmethod=expr foldexpr=TodoFold()
                                 \ foldtext=TodoFoldText()
                                 \ foldminlines=0
-                                \ fileformat=dos
+                                \ fileformat=unix
+                                \ foldclose=all
   autocmd FileType todo nnoremap <silent> <Leader><Leader>x :call TaskDone()<CR>
   " todo2icsは自作コマンド
   if executable('perl') 
